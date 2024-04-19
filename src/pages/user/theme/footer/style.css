@@ -1,0 +1,43 @@
+.footer {
+    background-color: rgb(187, 249, 228);
+    padding-top: 50px;
+    padding-bottom: 25px;
+}
+
+.footer_custom_take_care, .footer_about, .footer_payment, .footer_social_network {
+    h1 {
+        font-size: 13px;
+        padding-bottom: 15px;
+    }
+    ul {
+        list-style: none;
+        font-size: 13px;
+        a {
+            text-decoration: none;
+            color: rgb(117, 119, 121);
+        }
+        li {
+            padding-bottom: 3px;
+        }
+        
+    }
+}
+
+.footer_social_network {
+    ul {
+        svg {
+            width: 20px;
+            height: 20px;
+        }
+        li {
+            display: block;
+            position: relative;
+            justify-content: center;
+        }
+        span {
+            position: absolute;
+            text-align: center;
+            
+        }
+    }
+}
