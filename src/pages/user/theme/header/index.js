@@ -24,7 +24,7 @@ const Header = () => {
   const navigate = useNavigate();
   const queryInputRef = useRef(null);
 
-  const handleSearch = (e) => {
+  const handleSearch = (e) => { {/*hiển thị url tìm kiếm */}
     e.preventDefault();
     const query = queryInputRef.current.value;
     navigate(`/search?q=${query}`);
@@ -66,6 +66,7 @@ const Header = () => {
           <div className="col-6">
             <nav className="header_menu">
               <ul>
+                {/* cái này là menu ở bên trên thanh tìm kiếm ý */}
                 {menus?.map((menu, menuKey) => (
                   <li key={menuKey} className={menuKey === 0 ? "active": ""}>
                     <Link to={menu?.path}>{menu?.name}</Link>
@@ -81,7 +82,7 @@ const Header = () => {
               </div>
               <ul>
                 <li>
-                  <Link to={""}>
+                  <Link to={""}> {/* giỏ hàng này */}
                     <AiOutlineShoppingCart /><span>5</span>
                   </Link>
                 </li>
@@ -96,7 +97,7 @@ const Header = () => {
           <div className="col-9 header_search_container">
             <div className="header_search">
               <div className="header_search_form">
-                <form onSubmit={handleSearch}>
+                <form onSubmit={handleSearch}> {/*tìm kiếm sản phẩm*/}
                   <input ref={queryInputRef} type="text" className="query" placeholder="Bạn đang tìm gì?" />
                   <button type="submit" className="site_btn">Tìm kiếm</button>
                 </form>

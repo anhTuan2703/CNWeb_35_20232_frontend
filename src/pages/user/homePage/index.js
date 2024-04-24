@@ -148,10 +148,10 @@ const HomePage = () => {
               <div className="product_item_pic" style={{backgroundImage: `url(${item.img})`,}}>
                 <ul className="product_item_pic_hover">
                   <li>
-                    <AiOutlineEye/>
+                    <AiOutlineEye/> {/*biểu tượng này để sau này xem chi tiết sản phẩm */}
                   </li>
                   <li>
-                    <AiOutlineShoppingCart/>
+                    <AiOutlineShoppingCart/> {/*biểu tượng này để thêm vào giỏ hàng ngay tức khắc */}
                   </li>
                 </ul>
               </div>
