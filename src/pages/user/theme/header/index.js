@@ -1,9 +1,10 @@
-import { memo, useState } from "react";
+import { memo, useState, useRef } from "react";
 import './style.css';
 import { Link } from "react-router-dom";
 import { formater } from "../../../../utils/formater";
 import { AiOutlineShoppingCart } from "react-icons/ai";
 import { ROUTERS } from "../../../../utils/router";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
   const [menus, setMenus] = useState([
@@ -18,7 +19,16 @@ const Header = () => {
     {
 
     }
-  ])
+  ]);
+
+  const navigate = useNavigate();
+  const queryInputRef = useRef(null);
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    const query = queryInputRef.current.value;
+    navigate(`/search?q=${query}`);
+  };
 
   return (
     <>
@@ -86,8 +96,8 @@ const Header = () => {
           <div className="col-9 header_search_container">
             <div className="header_search">
               <div className="header_search_form">
-                <form>
-                  <input type="text" placeholder="Bạn đang tìm gì?" />
+                <form onSubmit={handleSearch}>
+                  <input ref={queryInputRef} type="text" className="query" placeholder="Bạn đang tìm gì?" />
                   <button type="submit" className="site_btn">Tìm kiếm</button>
                 </form>
               </div>

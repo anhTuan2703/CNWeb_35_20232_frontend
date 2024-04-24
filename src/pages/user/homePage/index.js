@@ -8,6 +8,12 @@ import { Link } from "react-router-dom";
 import aothun from "../../../img/ao-thun.jpg";
 import aobalo from "../../../img/ao-ba-lo.jpg";
 import ao2day from "../../../img/ao-hai-day.jpg";
+import ip14prm from "../../../img/iphone14promax.png";
+import xiaomitv from "../../../img/xiaomi-tv.jpg";
+import legion5 from "../../../img/legion-5.jpg";
+import applewatch from "../../../img/apple-watch.jpg";
+import af1 from "../../../img/nike-af1.png";
+import nckd from "../../../img/noichienkodau.jpg";
 
 const HomePage = () => {
 
@@ -19,11 +25,17 @@ const HomePage = () => {
           img: aothun,
           name: "Áo thun",
           price: 200000,
+          description: "",
+          number: "",
+          rating: "",
         },
         {
           img: aobalo,
           name: "Áo ba lỗ",
           price: 200000,
+          description: "",
+          number: "",
+          rating: "",
         }
       ],
     },
@@ -34,9 +46,91 @@ const HomePage = () => {
           img: ao2day,
           name: "Áo 2 dây",
           price: 200000,
+          description: "",
+          number: "",
+          rating: "",
         },
       ],
     },
+    phonesAndAccessories: {
+      title: "Điện thoại và phụ kiện",
+      products: [
+        {
+          img: ip14prm,
+          name: "Iphone 14 Pro Max 1TB",
+          price: 20000000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+    electronicDevice: {
+      title: "Thiết bị điện tử",
+      products: [
+        {
+          img: xiaomitv,
+          name: "Xiaomi Google TV FHD 43 inch 43A (L43M8 - P2SEA)",
+          price: 5000000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+    desktopAndLaptop: {
+      title: "Máy tính và laptop",
+      products: [
+        {
+          img: legion5,
+          name: "Laptop Lenovo Legion 5 15IAH7 (82RC008RVN)",
+          price: 24999000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+    watches: {
+      title: "Đồng hồ",
+      products: [
+        {
+          img: applewatch,
+          name: "Apple watch series 5 GPS 44mm Aluminum Case with Sport Band",
+          price: 3499000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+    shoes: {
+      title: "Giày dép",
+      products: [
+        {
+          img: af1,
+          name: "Nike Air Force 1'07 Men's Shoes",
+          price: 2990000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+    houseWare: {
+      title: "Đồ gia dụng",
+      products: [
+        {
+          img: nckd,
+          name: "Nồi chiên không dầu Sunhouse SHD4062 6 lít",
+          price: 1590000,
+          description: "",
+          number: "",
+          rating: "",
+        },
+      ],
+    },
+
   };
 
   const renderProducts = (data) => {
