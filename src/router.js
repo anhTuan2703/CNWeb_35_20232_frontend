@@ -4,6 +4,7 @@ import { ROUTERS } from "./utils/router";
 import HomePage from "./pages/user/homePage";
 import MasterLayout from "./pages/user/theme/masterLayout";
 import ProfilePage from "./pages/user/profilePage";
+import CartsPage from "./pages/user/carts/carts";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -14,6 +15,10 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.PROFILE,
       component: <ProfilePage/>
+    },
+    {
+      path: ROUTERS.USER.CARTS,
+      component: <CartsPage/>
     }
   ];
 
