@@ -4,7 +4,7 @@ import { ROUTERS } from "./utils/router";
 import HomePage from "./pages/user/homePage";
 import MasterLayout from "./pages/user/theme/masterLayout";
 import ProfilePage from "./pages/user/profilePage";
-import CartsPage from "./pages/user/carts/carts";
+import CartsPage from "./pages/user/cart/cart";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -17,7 +17,7 @@ const renderUserRouter = () => {
       component: <ProfilePage/>
     },
     {
-      path: ROUTERS.USER.CARTS,
+      path: ROUTERS.USER.CART,
       component: <CartsPage/>
     }
   ];
