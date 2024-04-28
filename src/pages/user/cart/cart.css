@@ -1,0 +1,61 @@
+.cartWrapper {
+    width: 80%;
+    margin: 0 auto;
+    position: relative; 
+    padding-bottom: 100px; /* Thêm padding-bottom để tạo khoảng cách giữa nội dung và footer */
+}
+
+.cartTitle {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.cart-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    border-bottom: 1px solid black; /* Thêm dòng này */
+    padding-bottom: 10px; /* Thêm dòng này */
+}
+
+.cart-header {
+    font-weight: bold;
+}
+
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+
+.cart-item-name,
+.cart-item-price,
+.cart-item-quantity {
+    flex: 1;
+    text-align: center;
+}
+
+.cart-item-quantity input {
+    width: 10px; /* Điều chỉnh kích thước này theo ý muốn */
+}
+
+.cart-total {
+    display: flex;
+    justify-content: space-between;
+    font-weight: bold;
+    margin-top: 20px;
+    border-top: 1px solid black; /* Thêm dòng này */
+    padding-top: 10px; /* Thêm dòng này */
+}
+
+.checkout-button {
+    position: absolute; 
+    right: 200px; 
+    width: 100px; 
+    padding: 10px;
+    background-color: rgb(3, 109, 74);
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+    cursor: pointer;
+}

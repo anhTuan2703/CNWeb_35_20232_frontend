@@ -6,6 +6,7 @@ export const ROUTERS = {
     ACCESS: "access",
     BLOGS: "blogs",
     CHANGE_INFORMATION: "change-information",
-    PROFILE: "profile"
+    PROFILE: "profile",
+    CART: "cart",
   },
 };

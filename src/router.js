@@ -7,6 +7,7 @@ import ChangeInfoPage from "./pages/user/profilePage/changeInfoPage";
 import AccountPage from "./pages/user/profilePage/accountPage";
 import Login from "./pages/login/login";
 import SignUp from "./pages/SignUp/Signup";
+import CartsPage from "./pages/user/cart/cart";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -26,6 +27,10 @@ const renderUserRouter = () => {
       path: ROUTERS.USER.SIGNUP,
       component: <SignUp/>
     },
+    {
+      path: ROUTERS.USER.CART,
+      component: <CartsPage/>
+    }
   ];
 
   return (

@@ -1,3 +1,4 @@
+import React, { useState } from 'react';
 import { memo } from "react";
 import "./style.css";
 import { formater } from "../../../utils/formater";
@@ -133,6 +134,12 @@ const HomePage = () => {
 
   };
 
+  const [cart, setCart] = useState([]);
+
+    const addToCart = (item) => { // hàm được thêm để add vào giỏ hàng
+        setCart(prevCart => [...prevCart, item]);
+    };
+
   const renderProducts = (data) => {
     const tabList = [];
     const tabPanels = [];
@@ -150,7 +157,7 @@ const HomePage = () => {
                   <li>
                     <AiOutlineEye/> {/*biểu tượng này để sau này xem chi tiết sản phẩm */}
                   </li>
-                  <li>
+                  <li onClick={() => addToCart(item)}> {/* Thêm onClick để thêm sản phẩm vào giỏ hàng */}
                     <AiOutlineShoppingCart/> {/*biểu tượng này để thêm vào giỏ hàng ngay tức khắc */}
                   </li>
                 </ul>
