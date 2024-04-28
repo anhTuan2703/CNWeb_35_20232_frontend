@@ -14,6 +14,10 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.PROFILE,
       component: <ProfilePage/>
+    },
+    {
+      path: `${ROUTERS.USER.PROFILE}/change-information`,
+      component: <HomePage/>
     }
   ];
 
