@@ -3,7 +3,10 @@ import { Routes, Route } from "react-router-dom";
 import { ROUTERS } from "./utils/router";
 import HomePage from "./pages/user/homePage";
 import MasterLayout from "./pages/user/theme/masterLayout";
-import ProfilePage from "./pages/user/profilePage";
+import ChangeInfoPage from "./pages/user/profilePage/changeInfoPage";
+import AccountPage from "./pages/user/profilePage/accountPage";
+import Login from "./pages/login/login";
+import SignUp from "./pages/SignUp/Signup";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -12,13 +15,17 @@ const renderUserRouter = () => {
       component: <HomePage/>
     },
     {
-      path: ROUTERS.USER.PROFILE,
-      component: <ProfilePage/>
+      path: `${ROUTERS.USER.ACCESS}/profile`,
+      component: <AccountPage/>
     },
     {
-      path: `${ROUTERS.USER.PROFILE}/change-information`,
-      component: <HomePage/>
-    }
+      path: `${ROUTERS.USER.ACCESS}/change-information`,
+      component: <ChangeInfoPage/>
+    },
+    {
+      path: ROUTERS.USER.SIGNUP,
+      component: <SignUp/>
+    },
   ];
 
   return (
@@ -27,6 +34,7 @@ const renderUserRouter = () => {
         {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component}/>
         ))}
+        <Route path="/" element={<Login />} />
       </Routes>
     </MasterLayout>
  );

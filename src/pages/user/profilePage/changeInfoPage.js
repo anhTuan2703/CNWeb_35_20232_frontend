@@ -1,7 +1,7 @@
 import { memo } from "react";
 import "./style.css";
 
-const ProfilePage = () => {
+const ChangeInfoPage = () => {
   return (
     <>
       <div className="container">
@@ -170,4 +170,4 @@ const ProfilePage = () => {
   );
 };
 
-export default memo(ProfilePage);
+export default memo(ChangeInfoPage);

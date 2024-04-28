@@ -25,7 +25,7 @@ input[type="text"], select {
 }
 
 .sub-btn {
-    background-color: #ee4d2d;
+    background-color: #1db79d;
     color: white;
     padding: 10px 20px;
     border: none;
@@ -36,7 +36,7 @@ input[type="text"], select {
 }
   
 .sub-btn:hover {
-    background-color: #ff6e4a;
+    background-color: #4affb7;
 }
   
 .profile_body_img {

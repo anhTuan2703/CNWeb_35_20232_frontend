@@ -1,14 +1,9 @@
 import React, { useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Navigate, Link } from 'react-router-dom';
 import "./login.css";
 
 export default function Login() {
   const [formData, setFormData] = useState({ username: "", password: "" });
-
-  const handleSignupClick = () => {
-    // Chuyển đến trang đăng ký
-    window.location.href = '/signup';
-  }
 
   const handleLogin = async () => {
     // Thực hiện xử lý đăng nhập với dữ liệu trong formData
@@ -75,7 +70,7 @@ export default function Login() {
 
           <br></br>
 
-          <div className="signup-link" onClick={handleSignupClick}>Don't have an account?</div>
+          <Link to="/signup" className="signup-link">Don't have an account?</Link>
         </div>
       </div>
     </div>
