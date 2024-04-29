@@ -136,9 +136,12 @@ const HomePage = () => {
 
   const [cart, setCart] = useState([]);
 
-    const addToCart = (item) => { // hàm được thêm để add vào giỏ hàng
-        setCart(prevCart => [...prevCart, item]);
-    };
+  const addToCart = (item) => { 
+    // Cập nhật trạng thái ngay lập tức
+    let newCart = [...cart];
+    newCart.push(item);
+    setCart(newCart);
+  };
 
   const renderProducts = (data) => {
     const tabList = [];
@@ -157,8 +160,8 @@ const HomePage = () => {
                   <li>
                     <AiOutlineEye/> {/*biểu tượng này để sau này xem chi tiết sản phẩm */}
                   </li>
-                  <li onClick={() => addToCart(item)}> /* Thêm onClick để thêm sản phẩm vào giỏ hàng */
-                    <AiOutlineShoppingCart/> {/*biểu tượng này để thêm vào giỏ hàng ngay tức khắc */}
+                  <li> 
+                    <AiOutlineShoppingCart onClick={() => addToCart(item)}/> {}
                   </li>
                 </ul>
               </div>

@@ -82,7 +82,7 @@ const Header = () => {
               </div>
               <ul>
                 <li>
-                  <Link to={ROUTERS.USER.CARTS}> {/* giỏ hàng này */}
+                  <Link to={ROUTERS.USER.CART}> {/* giỏ hàng này */}
                     <AiOutlineShoppingCart /><span>5</span>
                   </Link>
                 </li>
