@@ -31,7 +31,15 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Email</label>
                       </td>
                       <td>
-                        <input type="text" value=""/>
+                        <input className="email" type="text" value=""/>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <label className="form_info">CCCD</label>
+                      </td>
+                      <td>
+                        <input className="cccd" type="text" value=""/>
                       </td>
                     </tr>
                     <tr>
@@ -39,7 +47,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Số điện thoại</label>
                       </td>
                       <td>
-                        <input type="text" value=""/>
+                        <input className="sdt" type="text" value=""/>
                       </td>
                     </tr>
                     <tr>

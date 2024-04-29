@@ -8,6 +8,7 @@ import AccountPage from "./pages/user/profilePage/accountPage";
 import Login from "./pages/login/login";
 import SignUp from "./pages/SignUp/Signup";
 import CartsPage from "./pages/user/cart/cart";
+import ProductPage from "./pages/user/productPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -30,7 +31,11 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.CART,
       component: <CartsPage/>
-    }
+    },
+    {
+      path: `${ROUTERS.USER.HOME}/product`,
+      component: <ProductPage/>
+    },
   ];
 
   return (
