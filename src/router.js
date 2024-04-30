@@ -3,8 +3,12 @@ import { Routes, Route } from "react-router-dom";
 import { ROUTERS } from "./utils/router";
 import HomePage from "./pages/user/homePage";
 import MasterLayout from "./pages/user/theme/masterLayout";
-import ProfilePage from "./pages/user/profilePage";
+import ChangeInfoPage from "./pages/user/profilePage/changeInfoPage";
+import AccountPage from "./pages/user/profilePage/accountPage";
+import Login from "./pages/login/login";
+import SignUp from "./pages/SignUp/Signup";
 import CartsPage from "./pages/user/cart/cart";
+import ProductPage from "./pages/user/productPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -13,13 +17,25 @@ const renderUserRouter = () => {
       component: <HomePage/>
     },
     {
-      path: ROUTERS.USER.PROFILE,
-      component: <ProfilePage/>
+      path: `${ROUTERS.USER.ACCESS}/profile`,
+      component: <AccountPage/>
+    },
+    {
+      path: `${ROUTERS.USER.ACCESS}/change-information`,
+      component: <ChangeInfoPage/>
+    },
+    {
+      path: ROUTERS.USER.SIGNUP,
+      component: <SignUp/>
     },
     {
       path: ROUTERS.USER.CART,
       component: <CartsPage/>
-    }
+    },
+    {
+      path: `${ROUTERS.USER.HOME}/product`,
+      component: <ProductPage/>
+    },
   ];
 
   return (
@@ -28,6 +44,7 @@ const renderUserRouter = () => {
         {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component}/>
         ))}
+        <Route path="/" element={<Login />} />
       </Routes>
     </MasterLayout>
  );

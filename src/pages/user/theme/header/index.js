@@ -39,14 +39,14 @@ const Header = () => {
             <div className="col-6 header_top_right">
               <ul>
                 <li>
-                  <Link to={""}>
-                    Hỗ trợ
+                  <Link to={`/${ROUTERS.USER.ACCESS}/profile`}>
+                    Tài khoản
                   </Link>
                 </li>
                 |
                 <li>
-                  <Link to={ROUTERS.USER.PROFILE}>
-                    Tài khoản
+                  <Link to={`/${ROUTERS.USER.ACCESS}/change-information`}>
+                    Thay đổi thông tin
                   </Link>
                 </li>
               </ul>

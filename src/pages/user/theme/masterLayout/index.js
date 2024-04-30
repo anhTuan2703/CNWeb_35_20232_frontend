@@ -3,11 +3,13 @@ import Header from "../header";
 import Footer from "../footer";
 
 const MasterLayout = ({children, ...props}) => {
+  const currentPath = window.location.pathname;
+  const hideHeaderFooter = window.location.hostname === 'localhost' && (currentPath === '/' || currentPath === '/signup');
   return (
     <div {...props}>
-      <Header/>
+      {!hideHeaderFooter && <Header/>}
       {children}
-      <Footer/>
+      {!hideHeaderFooter && <Footer/>}
     </div>
   );
 };
