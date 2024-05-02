@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
-import "./SignUp.css";
-
+import "./signup.css";
 
     const initFormValue = {
         username: "",
