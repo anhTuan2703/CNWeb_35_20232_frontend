@@ -16,28 +16,57 @@
     margin-bottom: 20px;
 }
 
-.cart-row {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 10px;
-    border-bottom: 1px solid black;
-    padding-bottom: 10px;
-    padding-left: 50px;
-    padding-right: 80px;
-}
-
-.cart-header {
-    font-weight: bold;
-    padding-left: 60px;
-}
-
 .cart-item {
     display: flex;
-    text-align: center;
+    align-items: center;
     justify-content: space-between;
     margin-bottom: 10px;
-    padding-left: 40px;
-    padding-right: 40px;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+
+.item-image {
+    width: 70px;
+    height: 70px;
+    object-fit: cover;
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.item-details {
+    flex-grow: 1;
+    margin-right: 20px;
+}
+
+.item-name {
+    margin-left: 30px;
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.item-quantity-controls {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 0 10px;
+}
+
+.item-remove {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    padding: 5px 10px;
+    align-self: center;
 }
 
 .cart-item img {
@@ -50,6 +79,7 @@
 
 .item-price {
     padding-left: 15px;
+    margin-left: 40px;
 }
 
 .cart-total {
@@ -73,10 +103,7 @@
     cursor: pointer;
 }
 
-
-/* CSS for the remove button */
 .cart-item button:last-child {
-    background-color: #dc3545;
     padding: 5px 5px;
     margin: 0 5px;
     border: none;
@@ -84,7 +111,7 @@
     color: white;
     cursor: pointer;
     width: 30px;
-    height: 30px; /* Sets the background color of the remove button */
+    height: 30px;
 }
 
 .divider {
@@ -105,10 +132,6 @@
     height: 30px;
 }
 
-.quantity-decrease {
-    margin-bottom: 20px;
-}
-
 .quantity-input {
     width: 30px;
     text-align: center;
@@ -116,15 +139,6 @@
     border-radius: 4px;
     padding-left: 15px;
     height: 30px;
-}
-
-.item-remove {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 5px 10px;
 }
 
 .shipping-fee {
@@ -174,5 +188,3 @@ border: 1px solid #ccc;
 .shipping-info-form input[name="address"] {
     width: 300px;
 }
-  
-  

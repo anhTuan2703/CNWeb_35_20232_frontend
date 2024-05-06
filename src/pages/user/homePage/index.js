@@ -8,14 +8,36 @@ import { AiOutlineEye, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
 import category from '../../../data/productData';
 import { ROUTERS } from '../../../utils/router';
+import CartsPage from '../cart/cart'
 
 const HomePage = () => {
 
   const [cart, setCart] = useState([]);
 
-    const addToCart = (item) => { // hàm được thêm để add vào giỏ hàng
-        setCart(prevCart => [...prevCart, item]);
-    };
+  // Thêm sản phẩm vào giỏ hàng
+const addToCart = (product) => {
+  // Lấy giỏ hàng hiện tại từ localStorage
+  const currentCart = JSON.parse(localStorage.getItem('cart')) || [];
+
+  // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+  const existingProduct = currentCart.find((item) => item.id === product.id);
+
+  if (existingProduct) {
+    // Nếu sản phẩm đã có trong giỏ hàng, tăng số lượng lên 1
+    const updatedCart = currentCart.map(item => 
+      item.id === product.id ? { ...item, quantity: item.quantity + 1 } : item
+    );
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  } else {
+    // Nếu sản phẩm chưa có trong giỏ hàng, thêm mới vào giỏ hàng với số lượng là 1
+    const updatedCart = [...currentCart, { ...product, quantity: 1 }];
+    localStorage.setItem('cart', JSON.stringify(updatedCart));
+  }
+
+  alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+};
+
+  
 
   const renderProducts = (data) => {
     const tabList = [];
@@ -34,7 +56,7 @@ const HomePage = () => {
                   <li>
                     <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`}> <AiOutlineEye/> </Link>  {/*biểu tượng này để sau này xem chi tiết sản phẩm */}
                   </li>
-                  <li onClick={() => addToCart(item)}> /* Thêm onClick để thêm sản phẩm vào giỏ hàng */
+                  <li onClick={() => addToCart(item)}>
                     <AiOutlineShoppingCart/> {/*biểu tượng này để thêm vào giỏ hàng ngay tức khắc */}
                   </li>
                 </ul>
