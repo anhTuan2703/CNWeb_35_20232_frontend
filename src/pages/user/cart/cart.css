@@ -188,3 +188,23 @@ border: 1px solid #ccc;
 .shipping-info-form input[name="address"] {
     width: 300px;
 }
+
+.save-button {
+    width: 50px;
+    background-color: #4CAF50; /* Màu nền xanh */
+    border: none;
+    color: white; /* Màu chữ trắng */
+    padding: 10px 15px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.save-button:active {
+    background-color: #3e8e41; /* Màu xanh lá cây sẫm hơn */
+}
+

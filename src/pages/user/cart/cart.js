@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { memo } from "react";
-import './cart.css'; // Đảm bảo rằng bạn đã import file CSS
-import { fetchCartData } from './api'; // Import hàm fetchCartData từ file api.js
+import './cart.css'; 
+import { fetchCartData } from './api'; 
 
 const CartItem = ({ item, index, decreaseQuantity, changeQuantity, increaseQuantity, removeFromCart }) => (
     <div className="cart-item" key={index}>
@@ -81,10 +81,67 @@ const CartsPage = () => {
             [event.target.name]: event.target.value
         });
     };
+
+    const handleSaveShippingInfo = (event) => {
+        // Ngăn trình duyệt tải lại trang
+        event.preventDefault();
+    
+        // Lấy orderId từ props, state, hoặc từ đâu đó khác tùy thuộc vào cấu trúc của ứng dụng của bạn
+        const orderId = 'YOUR_ORDER_ID';
+    
+        // Gọi API để lưu thông tin giao hàng
+        fetch(`api/order/shippingInfo/${orderId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(shippingInfo),
+        })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Có lỗi xảy ra khi lưu thông tin giao hàng');
+            }
+            return response.json();
+        })
+        .then(data => {
+            alert('Thông tin giao hàng đã được lưu thành công!');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+            alert(error.message);
+        });
+    };
+    
+    
     
     const calculateTotal = () => {
         return cart.reduce((total, item) => total + item.price * item.quantity, 0);
     };
+
+    const handleCheckout = () => {
+        // Gọi API để gửi thông tin giỏ hàng và thông tin giao hàng
+        // Bạn cần thay thế 'YOUR_CHECKOUT_API_URL' bằng URL của API thanh toán của bạn
+        fetch('YOUR_CHECKOUT_API_URL', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                cart: cart,
+                shippingInfo: shippingInfo,
+            }),
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert('Thanh toán thành công!');
+            // Xóa mọi thứ trong giỏ hàng
+            setCart([]);
+            localStorage.removeItem('cart');
+        })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    };    
 
     return (
         <div className="cartWrapper">
@@ -109,12 +166,14 @@ const CartsPage = () => {
                     Thành phố:
                     <input type="text" name="city" value={shippingInfo.city} onChange={handleShippingInfoChange} />
                 </label>
+                <button className="save-button" onClick={handleSaveShippingInfo}>Lưu</button>
             </form>
+
             <div className="cart-total">
                 <span>Tổng cộng:</span>
                 <span>{calculateTotal() + shippingFee} VNĐ</span> {/* Cộng thêm phí ship hàng vào tổng cộng */}
             </div>
-            <button className="checkout-button">Thanh toán</button>
+            <button className="checkout-button" onClick={handleCheckout}>Thanh toán</button>
         </div>
     );
 };
