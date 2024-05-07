@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import "./signup.css";
+import axios from 'axios';
 
     const initFormValue = {
-        username: "",
+        name: "",
         account_name: "",
         password: "",
         confirm_password: "",
@@ -28,8 +29,8 @@ export default function SignUp () {
     const validateForm = () => {
         const error = {};
 
-        if (isEmptyValue(formValue.username)) {
-            error["username"] = "Username is required";
+        if (isEmptyValue(formValue.name)) {
+            error["name"] = "Username is required";
         }
 
         if (isEmptyValue(formValue.account_name)) {
@@ -79,15 +80,18 @@ export default function SignUp () {
         });
     };
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-
-        if(validateForm()) {
-            console.log("Form value", formValue);
-        } else {
-            console.log("Form invalid");
-        }
-        
+    const handleSubmit = async () => {
+        await axios.post('http://localhost:3001/api/v1/access/register', formValue).then(res => {
+            if(res.data.success) {
+                      // Đăng nhập thành công, chuyển đến trang chủ
+              window.location.href = '/';
+              console.log("Đăng nhập thành công");
+            } else {
+              console.log(res.data.message)
+            }
+          }).catch(err => {
+            console.log(err)
+          })
     };
 
     function handleChangeRole(event) {
@@ -108,19 +112,19 @@ export default function SignUp () {
                 
                 <form onSubmit = {handleSubmit}>
                     <div className="mb-2">
-                        <label htmlFor="username" className="form-label">
+                        <label htmlFor="name" className="form-label">
                             Username
                         </label>
                         <input
-                            id="username"
+                            id="name"
                             className="form-control"
                             type="text"
-                            name="username"
-                            value={formValue.username}
+                            name="name"
+                            value={formValue.name}
                             onChange={handleChange}
                         />
-                        {formError.username && (
-                                <div className="error-feedback">{formError.username}</div>
+                        {formError.name && (
+                                <div className="error-feedback">{formError.name}</div>
                             )}
                     </div>
 
@@ -252,15 +256,15 @@ export default function SignUp () {
                             onChange={handleChangeRole}
                             >   
                                 <option value="select">Select</option>
-                                <option value="customer">Customer</option>
-                                <option value="seller">Seller</option>
+                                <option value="CUSTOMER">Customer</option>
+                                <option value="SELLER">Seller</option>
                         </select>
                         {formError.role && (
                                 <div className="error-feedback">{formError.role}</div>
                             )}
                     </div>
 
-                    <button type="submit" className="submit-button">Register</button>
+                    <button type="button" className="submit-button" onClick={handleSubmit}>Register</button>
                 </form>
             </div>
         </div>
