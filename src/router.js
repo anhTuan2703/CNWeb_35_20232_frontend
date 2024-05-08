@@ -6,9 +6,9 @@ import MasterLayout from "./pages/user/theme/masterLayout";
 import ChangeInfoPage from "./pages/user/profilePage/changeInfoPage";
 import AccountPage from "./pages/user/profilePage/accountPage";
 import Login from "./pages/login/login";
-import SignUp from "./pages/signup/signup";
 import CartsPage from "./pages/user/cart/cart";
 import ProductPage from "./pages/user/productPage";
+import SignUp from "./pages/signup/signup";
 
 const renderUserRouter = () => {
   const userRouters = [

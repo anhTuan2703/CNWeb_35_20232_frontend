@@ -1,7 +1,47 @@
-import { memo } from "react";
+import { memo, useState } from "react";
 import "./style.css";
+import axios from "axios";
 
 const ChangeInfoPage = () => {
+  const [formData, setFormData] = useState({
+    account_name: "",
+    email: "",
+    cccd: "",
+    phone_number: "",
+    gender: "man", // Giới tính mặc định là "Nam"
+    dob_day: "1", // Ngày sinh mặc định là ngày 1
+    dob_month: "jan", // Tháng sinh mặc định là tháng 1
+    dob_year: "2013" // Năm sinh mặc định là năm 2013
+  });
+
+  const saveUserInfo = async () => {
+    try {
+      const response = await axios.post('http://localhost:3001/api/v1/user/change-information', {
+        account_name: formData.account_name,
+        email: formData.email,
+        cccd: formData.cccd,
+        phone_number: formData.phone_number,
+        gender: formData.gender,
+        dob_day: formData.dob_day,
+        dob_month: formData.dob_month,
+        dob_year: formData.dob_year
+      });
+  
+      console.log(response.data); // Xử lý kết quả trả về từ server tại đây
+    } 
+    catch (error) {
+      console.error('Error:', error);
+    }
+  };
+  
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
   return (
     <>
       <div className="container">
@@ -23,7 +63,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Tên đăng nhập</label>
                       </td>
                       <td>
-                        <label>richchoik</label>
+                        <label className="account_name" type="text" value={formData.account_name} onChange={handleChange}>richchoik</label>
                       </td>
                     </tr>
                     <tr>
@@ -31,7 +71,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Email</label>
                       </td>
                       <td>
-                        <input className="email" type="text" value=""/>
+                        <input className="email" type="text" value={formData.email} onChange={handleChange}/>
                       </td>
                     </tr>
                     <tr>
@@ -39,7 +79,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">CCCD</label>
                       </td>
                       <td>
-                        <input className="cccd" type="text" value=""/>
+                        <input className="cccd" type="text" value={formData.cccd} onChange={handleChange}/>
                       </td>
                     </tr>
                     <tr>
@@ -47,7 +87,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Số điện thoại</label>
                       </td>
                       <td>
-                        <input className="sdt" type="text" value=""/>
+                        <input className="phone_number" type="text" value={formData.phone_number} onChange={handleChange}/>
                       </td>
                     </tr>
                     <tr>
@@ -55,7 +95,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Giới tính</label>
                       </td>
                       <td>
-                        <select className="gender">
+                        <select className="gender" value={formData.gender} onChange={handleChange}>
                           <option value="man">Nam</option>
                           <option value="woman">Nữ</option>
                           <option value="other">Khác</option>
@@ -67,7 +107,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Ngày sinh</label>
                       </td>
                       <td>
-                        <select className="dob_day">
+                        <select className="dob_day" value={formData.dob_day} onChange={handleChange}>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -100,7 +140,7 @@ const ChangeInfoPage = () => {
                           <option value="30">30</option>
                           <option value="31">31</option>
                         </select>
-                        <select className="dob_month">
+                        <select className="dob_month" value={formData.dob_month} onChange={handleChange}>
                           <option value="jan">Tháng 1</option>
                           <option value="feb">Tháng 2</option>
                           <option value="mar">Tháng 3</option>
@@ -114,7 +154,7 @@ const ChangeInfoPage = () => {
                           <option value="nov">Tháng 11</option>
                           <option value="dec">Tháng 12</option>
                         </select>
-                        <select className="dob_year">
+                        <select className="dob_year" value={formData.dob_year} onChange={handleChange}>
                           <option value="2013">2013</option>
                           <option value="2012">2012</option>
                           <option value="2011">2011</option>
@@ -163,7 +203,7 @@ const ChangeInfoPage = () => {
                       </td>
                     </tr>
                   </table>
-                  <input type="button" className="sub-btn" value="Lưu"/>
+                  <input type="button" className="sub-btn" value="Lưu" onClick={saveUserInfo}/>
                 </form>
               </div>
               <div className="profile_body_img col-3">
