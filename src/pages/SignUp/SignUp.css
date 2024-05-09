@@ -1,35 +1,103 @@
 .register-page {
-    padding-top: 200px;
-    height: 100vh;
+    margin-top: 100px;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 100vh;
+    background-color: #f7f7f7;
 }
 
 .register-form-container {
-    width: 520px;
-    padding: 48px;
-    box-shadow: 0px 0px 21px rgb(0 0 0 / 20%);
     background: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
 }
 
-label.form-label {
-    width: 100%;
-    display: block;
+.title {
+    font-size: 24px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 20px;
+}
 
+.form-label {
+    display: block;
+    margin-bottom: .5rem;
+    color: #666;
 }
 
 .form-control {
-    height: 40px;
     display: block;
     width: 100%;
-    padding: 6px 12px;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #495057;
+    background-color: #fff;
+    background-clip: padding-box;
+    border: 1px solid #ced4da;
+    border-radius: .25rem;
+    transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
 
-.mb-2 {
-    margin-bottom: 16px;
+.form-control:focus {
+    border-color: #80bdff;
+    outline: 0;
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, .25);
 }
 
 .error-feedback {
-    color: red;
+    color: #dc3545;
+    font-size: 0.875em;
+    margin-top: .25rem;
+}
+
+.mb-2 {
+    margin-bottom: 1rem;
+}
+
+.submit-button {
+    display: block;
+    width: 100%;
+    padding: .375rem .75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: .25rem;
+    cursor: pointer;
+    transition: background-color .15s ease-in-out;
+}
+
+.submit-button:hover {
+    background-color: #0056b3;
+}
+
+/* Reduce size of password input fields */
+.form-control[type="password"] {
+    font-size: 14px;
+    padding: 8px;
+}
+
+/* Reduce size of password and confirm password input fields */
+#password,
+#confirm_password {
+    width: 80%;
+    font-size: 0.875rem;
+    padding: 0.375rem 0.75rem;
+}
+
+/* Set fixed width for all input fields */
+.form-control {
+    width: 250px;
+}
+
+input[type="text"] {
+    padding-left: 15px;
+    width: 80%;
+    height: 20px;
 }
