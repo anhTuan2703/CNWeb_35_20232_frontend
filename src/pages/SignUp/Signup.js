@@ -256,8 +256,8 @@ export default function SignUp () {
                             onChange={handleChangeRole}
                             >   
                                 <option value="select">Select</option>
-                                <option value="CUSTOMER">Customer</option>
-                                <option value="SELLER">Seller</option>
+                                <option value="CUSTOMER">CUSTOMER</option>
+                                <option value="SELLER">SELLER</option>
                         </select>
                         {formError.role && (
                                 <div className="error-feedback">{formError.role}</div>

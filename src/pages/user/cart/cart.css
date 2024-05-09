@@ -154,7 +154,7 @@ input#shippingFee {
     height: 20px;
 }
 
-input[type="text"] {
+.input[type="text"] {
     padding-left: 15px;
     width: 150px;
     height: 20px;
