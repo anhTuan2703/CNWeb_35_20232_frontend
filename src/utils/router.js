@@ -9,5 +9,6 @@ export const ROUTERS = {
     PROFILE: "profile",
     CART: "cart",
     PRODUCT: "product",
+    CHANGE_PASSWORD: "change-password",
   },
 };

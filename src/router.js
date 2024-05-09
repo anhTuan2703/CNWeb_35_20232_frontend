@@ -9,6 +9,7 @@ import Login from "./pages/login/login";
 import CartsPage from "./pages/user/cart/cart";
 import ProductPage from "./pages/user/productPage";
 import SignUp from "./pages/signup/signup";
+import ChangePasswordPage from "./pages/user/profilePage/changePasswordPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -23,6 +24,10 @@ const renderUserRouter = () => {
     {
       path: `${ROUTERS.USER.ACCESS}/change-information`,
       component: <ChangeInfoPage/>
+    },
+    {
+      path: `${ROUTERS.USER.ACCESS}/change-password`,
+      component: <ChangePasswordPage/>
     },
     {
       path: ROUTERS.USER.SIGNUP,

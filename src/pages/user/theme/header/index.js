@@ -49,6 +49,12 @@ const Header = () => {
                     Thay đổi thông tin
                   </Link>
                 </li>
+                |
+                <li>
+                  <Link to={`/${ROUTERS.USER.ACCESS}/change-password`}>
+                    Đổi mật khẩu
+                  </Link>
+                </li>
               </ul>
             </div>
           </div>
