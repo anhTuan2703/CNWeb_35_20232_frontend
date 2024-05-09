@@ -2,7 +2,7 @@
 
 export async function fetchCartData() {
     // URL của API để lấy dữ liệu giỏ hàng
-    const url = 'api/order/detail';
+    const url = 'api/v1/order/detail';
 
     try {
         // Thực hiện yêu cầu GET đến API

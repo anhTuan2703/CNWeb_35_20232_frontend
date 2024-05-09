@@ -15,7 +15,7 @@ export default function Login() {
       if(res.data.success) {
         localStorage.setItem('token', res.data.token);
                 // Đăng nhập thành công, chuyển đến trang chủ
-        window.location.href = '/';
+        window.location.href = '/home';
         console.log("Đăng nhập thành công");
       } else {
         console.log(res.data.message)
