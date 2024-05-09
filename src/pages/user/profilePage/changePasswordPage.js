@@ -1,11 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./style.css";
 import axios from "axios";
+import { jwtDecode } from "jwt-decode";
 
 const ChangePasswordPage = () => {
-  const [formData, setFormData] = useState({ oldPassword: "", newPassword: "", confirmPassword: "" });
+  const [formData, setFormData] = useState({ oldPassword: "", newPassword: "", confirmPassword: "", userID:"" });
   const [error, setError] = useState("");
 
+  useEffect(() => {
+    // Lấy token từ Local Storage
+    const token = localStorage.getItem('token');
+    //const token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwicm9sZSI6IkNVU1RPTUVSIiwiaWF0IjoxNzE1MjY1NTc4LCJleHAiOjE3MTUzNTE5Nzh9.zVCuNzjZiMcOys9aQ0abZB2xyYpOoV68Tj1DAo3vvZE";
+
+    // Kiểm tra xem token có tồn tại hay không
+    if (token) {
+      const decodedToken = jwtDecode(token).id;
+      console.log(decodedToken);
+      const userId = decodedToken;
+      localStorage.setItem('userID',userId);
+      //console.log(localStorage.getItem('userID'));
+      // Gán userId vào state formData
+      setFormData((prevState) => ({
+        ...prevState,
+        userID: userId,
+      }));
+    } 
+    else {
+      console.log("lỗi mẹ nó rồi");  
+    }
+  }, []);
+  
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevState) => ({
@@ -21,6 +45,7 @@ const ChangePasswordPage = () => {
     else {
       try {
         const response = await axios.post('http://localhost:3001/api/v1/user/change-password', {
+          userID: formData.userID,
           oldPassword: formData.oldPassword,
           newPassword: formData.newPassword,
           confirmPassword: formData.confirmPassword
