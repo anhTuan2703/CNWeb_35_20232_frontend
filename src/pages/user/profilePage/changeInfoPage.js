@@ -32,18 +32,10 @@ const ChangeInfoPage = () => {
     catch (error) {
       console.error('Error:', error);
     }
-  };
-  
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+  }; 
 
   return (
-    <>
+    <>                 
       <div className="container">
         <div className="row">
           <div className="col-3">
@@ -63,7 +55,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Tên đăng nhập</label>
                       </td>
                       <td>
-                        <label className="account_name" type="text" value={formData.account_name} onChange={handleChange}>richchoik</label>
+                        <label className="account_name" type="text" value={formData.account_name} >richchoik</label>
                       </td>
                     </tr>
                     <tr>
@@ -71,7 +63,12 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Email</label>
                       </td>
                       <td>
-                        <input className="email" type="text" value={formData.email} onChange={handleChange}/>
+                        <input
+                          className="email"
+                          type="text"
+                          value={formData.email}
+                          onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -79,7 +76,12 @@ const ChangeInfoPage = () => {
                         <label className="form_info">CCCD</label>
                       </td>
                       <td>
-                        <input className="cccd" type="text" value={formData.cccd} onChange={handleChange}/>
+                        <input 
+                          className="cccd" 
+                          type="text" 
+                          value={formData.cccd} 
+                          onChange={(e) => setFormData({ ...formData, cccd: e.target.value })}
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -87,7 +89,12 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Số điện thoại</label>
                       </td>
                       <td>
-                        <input className="phone_number" type="text" value={formData.phone_number} onChange={handleChange}/>
+                        <input 
+                          className="phone_number" 
+                          type="text" 
+                          value={formData.phone_number} 
+                          onChange={(e) => setFormData({ ...formData, phone_number: e.target.value })}
+                        />
                       </td>
                     </tr>
                     <tr>
@@ -95,7 +102,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Giới tính</label>
                       </td>
                       <td>
-                        <select className="gender" value={formData.gender} onChange={handleChange}>
+                        <select className="gender" value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>
                           <option value="man">Nam</option>
                           <option value="woman">Nữ</option>
                           <option value="other">Khác</option>
@@ -107,7 +114,7 @@ const ChangeInfoPage = () => {
                         <label className="form_info">Ngày sinh</label>
                       </td>
                       <td>
-                        <select className="dob_day" value={formData.dob_day} onChange={handleChange}>
+                        <select className="dob_day" value={formData.dob_day} onChange={(e) => setFormData({ ...formData, dob_day: e.target.value })}>
                           <option value="1">1</option>
                           <option value="2">2</option>
                           <option value="3">3</option>
@@ -140,7 +147,7 @@ const ChangeInfoPage = () => {
                           <option value="30">30</option>
                           <option value="31">31</option>
                         </select>
-                        <select className="dob_month" value={formData.dob_month} onChange={handleChange}>
+                        <select className="dob_month" value={formData.dob_month} onChange={(e) => setFormData({ ...formData, dob_month: e.target.value })}>
                           <option value="jan">Tháng 1</option>
                           <option value="feb">Tháng 2</option>
                           <option value="mar">Tháng 3</option>
@@ -154,7 +161,7 @@ const ChangeInfoPage = () => {
                           <option value="nov">Tháng 11</option>
                           <option value="dec">Tháng 12</option>
                         </select>
-                        <select className="dob_year" value={formData.dob_year} onChange={handleChange}>
+                        <select className="dob_year" value={formData.dob_year} onChange={(e) => setFormData({ ...formData, dob_year: e.target.value })}>
                           <option value="2013">2013</option>
                           <option value="2012">2012</option>
                           <option value="2011">2011</option>

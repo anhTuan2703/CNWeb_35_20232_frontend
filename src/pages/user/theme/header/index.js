@@ -2,7 +2,6 @@ import { memo, useState, useRef } from "react";
 import './style.css';
 import { Link } from "react-router-dom";
 import { formater } from "../../../../utils/formater";
-import { AiOutlineShoppingCart } from "react-icons/ai";
 import { ROUTERS } from "../../../../utils/router";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../../img/cropedLogo.png";
