@@ -11,10 +11,31 @@ import { ROUTERS } from '../../../utils/router';
 
 const HomePage = () => {
 
-  const [cart, setCart] = useState([]);
+  // Hàm này sẽ thêm một item vào giỏ hàng trong cơ sở dữ liệu
+  const addToCart = async (item) => {
+    try {
+      const response = await fetch(' api/order/:orderId/product/:productId', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ item }),
+      });
+      if (!response.ok) throw new Error('Lỗi khi thêm vào giỏ hàng.');
 
-  const addToCart = (item) => { // hàm được thêm để add vào giỏ hàng
-    setCart(prevCart => [...prevCart, item]);
+      const result = await response.json();
+      if (result.success) {
+        alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
+        return true;
+      } else {
+        alert('Không thể thêm sản phẩm vào giỏ hàng.');
+        return false;
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
+      return false;
+    }
   };
 
   const renderProducts = (data) => {
