@@ -1,5 +1,6 @@
 .header_top {
-    background: rgb(241, 235, 235);
+    background: rgb(187, 249, 228);
+    height: 100px;
 }
 
 .header_top_right {
@@ -21,19 +22,21 @@
 }
 
 .header_logo {
-    padding: 15px 0 0;
+    img {
+        width: 100px;
+        top:-10px
+    }
 }
 
 .header_menu {
     padding: 15px 0 0;
+    text-align: center;
 
     ul {
         display: flex;
         justify-content: space-between;
-
-        .active a {
-            color: aqua;
-        }
+        text-align: center;
+        padding-top: 20px;
 
         li {
             list-style: none;
@@ -48,92 +51,80 @@
                 padding: 5px 0  ;
                 display: block;
             }
+            a:hover {
+                color:rgb(157, 239, 209);
+            }
         }
     }
 }
 
-.header_cart {
+.search {
     display: flex;
+    flex-direction: column;
+    width: 800px;
+    height: 135px;
+    padding: 0px 8px;
+    margin: 0 auto;
+    
     justify-content: center;
     align-items: center;
-
-    ul {
-        display: flex;
-        margin-right: 25px;
-
-        li {
-            list-style: none;
-            position: relative;
-        }
-
-        svg {
-            color: black;
-            font-size: 25px;
-        }
-
-        a {
-            text-decoration: none;
-        }
-
-        span {
-            color: white;
-            background-color: rgb(19, 177, 177);
-            position: absolute;
-            height: 20px;
-            width: 20px;
-            border-radius: 50%;
-            display: inline-block;
-            text-align: center;
-            line-height: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            left: 20px;
-            top: -2px;
-        }
-    }
+    gap: 20px;
 }
 
-.header_search_container {
-    padding-left: 15px;
-    
-    .header_search_form {
-        form {
-            display: inline-flex;
-            align-items: center;
-            input {
-                border: none;
-                height: 30px;
-                font-size: 14px;
-                color: #b2b2b2;
-                padding-left: 20px;
-                border: 1px solid #ebebeb;
-                width: 100%;
-                
-                :focus {
-                    outline: none;
-                    border:none;
-                }
-            }
-    
-            
-        
-            button {
-                font-size: 14px;
-                color: #ffffff;
-                font-weight: 800;
-                text-transform: uppercase;            
-                display: inline-block;
-                padding: 16px 30px 17px;
-                background-color: aquamarine;
-                border: none;
-                height: auto;
-                font-family: Arial; 
-                width: 300px;
-            }
-        }
-        width: 610px;
-        float: left;
-    }
+.search-bar {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
-    
+.search-input {
+    width: 549px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background-color: #d9d9d9;
+    padding: 8px 20px;
+    border-radius: 30px;
+}
+
+.search-input input::placeholder {
+    color: rgba(0, 0, 0, 0.36);
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 120%;
+    letter-spacing: 0.77px;
+
+}
+
+.search-input input {
+    width: 100%;
+    background: transparent;
+    border: none;
+}
+
+.search-input input:focus {
+    outline: none;
+}
+
+.btn-search {
+    background-color: rgb(187, 249, 228);
+    border: none;
+    border-radius: 20px;
+    padding: 11px 12px;
+    color: #262626;
+    font-family: Inter;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 120%;
+    /* 19.2px */
+    letter-spacing: 0.88px;
+    text-align: center;
+    cursor: pointer;
+}
+.btn-search:hover {
+    background-color: rgb(157, 239, 209);
 }
