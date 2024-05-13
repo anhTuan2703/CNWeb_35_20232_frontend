@@ -1,5 +1,5 @@
 .cartWrapper {
-    width: 80%;
+    width: 90%;
     margin: 0 auto;
     position: relative; 
     padding-bottom: 100px;
@@ -7,13 +7,15 @@
     border-radius: 10px;
     box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
     margin-bottom: 10px;
-    margin-top: 10px;   
+    margin-top: 10px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .cartTitle {
     color: aqua;
     text-align: center;
     margin-bottom: 20px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .cart-item {
@@ -23,6 +25,7 @@
     margin-bottom: 10px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-image {
@@ -36,87 +39,47 @@
 .item-details {
     flex-grow: 1;
     margin-right: 20px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-name {
-    margin-left: 30px;
     display: block;
     font-weight: bold;
     margin-bottom: 5px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-quantity-controls {
     display: flex;
     align-items: center;
-    margin-right: 20px;
-}
-
-.quantity-input {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 0 10px;
-}
-
-.item-remove {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 5px 10px;
-    align-self: center;
-}
-
-.cart-item img {
-    width: 70px;
-    height: 70px;
-    object-fit: cover;
-    margin-right: 0px;
-    border-radius: 5px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-price {
-    padding-left: 15px;
-    margin-left: 40px;
+    font-weight: bold;
+    margin-right: 20px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
-.cart-total {
+.total-price {
     display: flex;
     justify-content: space-between;
     font-weight: bold;
     margin-top: 20px;
-    border-top: 1px solid black;
+    border-top: 1px solid black 90%;
     padding-top: 10px;
 }
 
 .checkout-button {
-    position: absolute; 
-    right: 200px; 
-    width: 100px; 
-    padding: 10px;
     background-color: rgb(3, 109, 74);
     color: white;
     text-align: center;
-    margin-top: 20px;
+    padding: 10px;
     cursor: pointer;
-}
-
-.cart-item button:last-child {
-    padding: 5px 5px;
-    margin: 0 5px;
     border: none;
     border-radius: 4px;
-    color: white;
-    cursor: pointer;
-    width: 30px;
-    height: 30px;
-}
-
-.divider {
-    border-top: 1px solid black;
-    margin: 20px 0;
+    margin-top: 20px;
+    width: 100px; 
 }
 
 .quantity-decrease,
@@ -133,78 +96,72 @@
 }
 
 .quantity-input {
-    width: 30px;
+    width: 50px;
     text-align: center;
     border: 1px solid #ccc;
     border-radius: 4px;
-    padding-left: 15px;
-    height: 30px;
+    margin: 0 10px;
 }
 
-.shipping-fee {
-    padding-left: 10px;
-}
-
-.label-shippingFee {
-    padding-right: 20px;
-}
-
-input#shippingFee {
-    width: 150px;
-    height: 20px;
-}
-
-.input[type="text"] {
-    padding-left: 15px;
-    width: 150px;
-    height: 20px;
-}
-
-.cart-total {
-    padding-left: 10px;
-    padding-right: 20px;    
-}
-
-.shipping-info-form {
+.shipping-info {
     display: flex;
     flex-direction: column;
-    width: 300px;
-    margin-left: 15px;
+    margin-top: 20px;
+    padding-left: 25px; /* Thêm lề bên trái */
 }
 
-.shipping-info-form label {
-font-weight: bold;
-margin-top: 10px;
-}
-
-.shipping-info-form input {
-margin-left: 10px;
-margin-top: 5px;
-padding: 10px;
-border-radius: 5px;
-border: 1px solid #ccc;
-}
-
-.shipping-info-form input[name="address"] {
-    width: 300px;
+.shipping-info input[type="text"] {
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    width: calc(90% - 25px); /* Điều chỉnh chiều rộng để tính đến lề bên trái */
 }
 
 .save-button {
-    width: 50px;
-    background-color: #4CAF50; /* Màu nền xanh */
-    border: none;
-    color: white; /* Màu chữ trắng */
+    background-color: #4CAF50;
+    color: white;
     padding: 10px 15px;
     text-align: center;
-    text-decoration: none;
     display: inline-block;
     font-size: 14px;
-    margin: 4px 2px;
     cursor: pointer;
+    border: none;
+    border-radius: 4px;
     transition: background-color 0.3s ease;
+    margin-top: 20px;
+    position: absolute; /* Đặt nút theo vị trí tuyệt đối */
+    right: 20px; /* Đặt nút cách lề phải 20px */
+    bottom: 60px; /* Đặt nút cách lề dưới 60px để tạo khoảng cách 20px với nút thanh toán */
 }
 
 .save-button:active {
-    background-color: #3e8e41; /* Màu xanh lá cây sẫm hơn */
+    background-color: #3e8e41;
 }
 
+.checkout-button {
+    background-color: #28a745; /* Màu xanh lá cây */
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    position: absolute; /* Đặt nút theo vị trí tuyệt đối */
+    right: 20px; /* Đặt nút cách lề phải 20px */
+    bottom: 20px; /* Đặt nút cách lề dưới 20px */
+}
+
+.checkout-button:hover {
+    background-color: #218838; /* Màu xanh lá cây đậm hơn khi hover */
+}
+
+.checkout-button:disabled {
+    background-color: #cccccc; /* Màu xám khi nút bị vô hiệu hóa */
+    cursor: not-allowed;
+}

@@ -1,21 +1,61 @@
-import React, { useState, useEffect } from 'react';
-import { memo } from "react";
+import React, { useState, useEffect, memo } from 'react';
 import './cart.css'; 
-import { fetchCartData } from './api'; 
 
-const CartItem = ({ item, index, decreaseQuantity, changeQuantity, increaseQuantity, removeFromCart }) => (
-    <div className="cart-item" key={index}>
+// Hàm này sẽ gửi dữ liệu cập nhật đến backend
+const saveChangesToBackend = async (cart, shippingInfo, orderId) => {
+  try {
+    // Chuyển đổi dữ liệu giỏ hàng để phù hợp với cấu trúc backend mong đợi
+    const itemsOrder = cart.map(item => ({
+      id: item.id.toString(),
+      amount: item.quantity.toString()
+    }));
+
+    // Cập nhật thông tin giao hàng để phù hợp với tên trường của backend
+    const updatedShippingInfo = {
+      address: shippingInfo.address,
+      phoneNo: shippingInfo.phone, // Sử dụng 'phoneNo' thay vì 'phone'
+      city: shippingInfo.city
+    };
+
+    // Gửi yêu cầu cập nhật giỏ hàng
+    const cartResponse = await fetch(`api/order/${orderId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ items_order: itemsOrder }),
+    });
+    if (!cartResponse.ok) throw new Error('Lỗi cập nhật giỏ hàng.');
+
+    // Gửi yêu cầu cập nhật thông tin giao hàng
+    const shippingResponse = await fetch(`api/order/${orderId}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ shipping_info: updatedShippingInfo }),
+    });
+    if (!shippingResponse.ok) throw new Error('Lỗi cập nhật thông tin giao hàng.');
+
+    alert('Các thay đổi đã được lưu thành công!');
+  } catch (error) {
+    console.error('Error:', error);
+    alert('Có lỗi xảy ra khi lưu thay đổi.');
+  }
+};
+
+const CartItem = ({ item, onQuantityChange }) => (
+    <div className="cart-item">
       <img className="item-image" src={item.image} alt={item.name} />
       <div className="item-details">
         <span className="item-name">{item.name}</span>
         <span className="item-price">{item.price} VNĐ</span>
+        <div className="item-quantity-controls">
+          <button onClick={() => onQuantityChange(item.id, -1)}>-</button>
+          <input type="number" value={item.quantity} readOnly />
+          <button onClick={() => onQuantityChange(item.id, 1)}>+</button>
+        </div>
       </div>
-      <div className="item-quantity-controls">
-        <button className="quantity-decrease" onClick={() => decreaseQuantity(index)}>-</button>
-        <input className="quantity-input" type="number" value={item.quantity} onChange={(e) => changeQuantity(index, e.target.value)} />
-        <button className="quantity-increase" onClick={() => increaseQuantity(index)}>+</button>
-      </div>
-      <button className="item-remove" onClick={() => removeFromCart(index)}>Xóa</button>
     </div>
 );
 
@@ -23,158 +63,101 @@ const CartsPage = () => {
     const [cart, setCart] = useState([]);
     const [shippingInfo, setShippingInfo] = useState({});
     const [shippingFee, setShippingFee] = useState(0);
+    const [isDataChanged, setIsDataChanged] = useState(false);
+    const orderId = 'your-order-id'; // Thay thế 'your-order-id' bằng ID đơn hàng thực tế
 
-    useEffect(() => {
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            setCart(JSON.parse(savedCart));
-        }
-        fetchCartData().then(data => {
-            if (data) {
-                setCart(data.items_order);
-                setShippingInfo(data.shipping_info);
-                setShippingFee(data.ship_price);
-            }
-        });
-        fetchShippingInfo().then(data => {
-            if (data) {
-                setShippingInfo(data);
-            }
-        });
-    }, []);
-
-    const fetchShippingInfo = async () => {
+    // Hàm lấy thông tin giỏ hàng, thông tin giao hàng và phí ship từ backend
+    const fetchCartAndShippingInfo = async () => {
         try {
-            const response = await fetch('YOUR_SHIPPING_INFO_API_URL');
+            const response = await fetch('/api/cart/details');
             if (!response.ok) {
                 throw new Error('Network response was not ok');
             }
             const data = await response.json();
-            return data;
+            setCart(data.cartItems);
+            setShippingInfo(data.shippingInfo);
+            setShippingFee(data.shippingFee);
         } catch (error) {
-            console.error('Could not fetch shipping info:', error);
+            console.error('Could not fetch cart and shipping info:', error);
         }
     };
 
-    const removeFromCart = (indexToRemove) => {
-        const updatedCart = cart.filter((item, index) => index !== indexToRemove);
-        setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
-        window.alert('Sản phẩm đã được xóa thành công!');
+    useEffect(() => {
+        fetchCartAndShippingInfo();
+    }, []);
+
+    const handleQuantityChange = (itemId, delta) => {
+        const newCart = cart.map(item => 
+            item.id === itemId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+        );
+        setCart(newCart);
+        setIsDataChanged(true);
     };
 
-    const changeQuantity = (index, quantity) => {
-        const updatedCart = cart.map((item, idx) => idx === index ? {...item, quantity: parseInt(quantity)} : item);
-        setCart(updatedCart);
-        localStorage.setItem('cart', JSON.stringify(updatedCart));
+    const handleShippingChange = (event) => {
+        const { name, value } = event.target;
+        setShippingInfo(prevInfo => ({ ...prevInfo, [name]: value }));
+        setIsDataChanged(true);
     };
 
-    const increaseQuantity = (index) => {
-        changeQuantity(index, cart[index].quantity + 1);
-    };
-
-    const decreaseQuantity = (index) => {
-        if (cart[index].quantity > 1) {
-            changeQuantity(index, cart[index].quantity - 1);
+    const handleSaveChanges = () => {
+        if (isDataChanged) {
+            saveChangesToBackend(cart, shippingInfo, orderId);
+            setIsDataChanged(false);
         }
     };
 
-    const handleShippingInfoChange = (event) => {
-        setShippingInfo({
-            ...shippingInfo,
-            [event.target.name]: event.target.value
-        });
-    };
-
-    const handleSaveShippingInfo = async (event) => {
-        event.preventDefault();
-        const orderId = 'YOUR_ORDER_ID';
+    const handleCheckout = async () => {
         try {
-            const response = await fetch(`api/order/shippingInfo/${orderId}`, {
+            const response = await fetch('/api/checkout', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(shippingInfo),
+                body: JSON.stringify({ cart }),
             });
-            if (!response.ok) {
-                throw new Error('Có lỗi xảy ra khi lưu thông tin giao hàng');
+            if (!response.ok) throw new Error('Lỗi khi thực hiện thanh toán.');
+
+            const result = await response.json();
+            if (result.success) {
+                alert('Thanh toán thành công!');
+                // Xử lý sau khi thanh toán thành công (ví dụ: cập nhật UI, chuyển hướng, v.v.)
+            } else {
+                alert('Thanh toán không thành công.');
             }
-            const data = await response.json();
-            alert('Thông tin giao hàng đã được lưu thành công!');
         } catch (error) {
             console.error('Error:', error);
-            alert(error.message);
+            alert('Có lỗi xảy ra khi thực hiện thanh toán.');
         }
     };
 
-    const calculateTotal = () => {
-        return cart.reduce((total, item) => total + item.price * item.quantity, 0) + shippingFee;
+    const calculateTotalPrice = () => {
+        return cart.reduce((total, item) => total + item.price * item.quantity, 0);
     };
-
-    const handleCheckout = () => {
-        fetch('YOUR_CHECKOUT_API_URL', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                cart: cart,
-                shippingInfo: shippingInfo,
-            }),
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert('Thanh toán thành công!');
-            setCart([]);
-            localStorage.removeItem('cart');
-        })
-        .catch((error) => {
-            console.error('Error:', error);
-        });
-    };    
 
     return (
         <div className="cartWrapper">
-            <h1 className="cartTitle">Your Cart</h1>
-            {cart.map((item, index) => (
+            <h1>Giỏ Hàng Của Bạn</h1>
+            {cart.map(item => (
                 <CartItem 
-                    key={index}
+                    key={item.id}
                     item={item}
-                    index={index}
-                    decreaseQuantity={decreaseQuantity}
-                    changeQuantity={changeQuantity}
-                    increaseQuantity={increaseQuantity}
-                    removeFromCart={removeFromCart}
+                    onQuantityChange={handleQuantityChange}
                 />
             ))}
-            <hr className="divider" />
-            <div className="shipping-fee">
-                <label htmlFor="shippingFee" className="label-shippingFee">Phí ship hàng:</label>
-                <span>{shippingFee}</span>
+            <div className="shipping-info">
+                <h2>Thông Tin Giao Hàng</h2>
+                <input type="text" name="address" value={shippingInfo.address || ''} onChange={handleShippingChange} placeholder="Địa chỉ" />
+                <input type="text" name="phoneNo" value={shippingInfo.phoneNo || ''} onChange={handleShippingChange} placeholder="Số điện thoại" />
+                <input type="text" name="city" value={shippingInfo.city || ''} onChange={handleShippingChange} placeholder="Thành phố" />
             </div>
-            <hr className="divider" />
-            <form className="shipping-info-form" onSubmit={handleSaveShippingInfo}>
-                <label>
-                    Địa chỉ:
-                    <input type="text" name="address" value={shippingInfo.address || ''} onChange={handleShippingInfoChange} />
-                </label>
-                <label>
-                    Số điện thoại:
-                    <input type="text" name="phoneNo" value={shippingInfo.phoneNo || ''} onChange={handleShippingInfoChange} />
-                </label>
-                <label>
-                    Thành phố:
-                    <input type="text" name="city" value={shippingInfo.city || ''} onChange={handleShippingInfoChange} />
-                </label>
-                <button type="submit" className="save-button">Lưu</button>
-            </form>
-
-            <div className="cart-total">
-                <span>Tổng cộng:</span>
-                <span>{calculateTotal()} VNĐ</span>
-            </div>
-            <button className="checkout-button" onClick={handleCheckout}>Thanh toán</button>
+            
+            <button onClick={handleSaveChanges} disabled={!isDataChanged}>Lưu Thay Đổi</button>
+            <div className="total-price">
+                <span>Tổng cộng: {calculateTotalPrice()} VNĐ</span>
+            </div>                      
+                
+            <button onClick={handleCheckout} className="checkout-button">Thanh Toán</button>
         </div>
     );
 };

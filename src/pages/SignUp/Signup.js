@@ -1,272 +1,210 @@
-import React, {useState} from 'react';
-import "./signup.css";
+import React, { useState } from 'react';
 import axios from 'axios';
+import {
+  CssBaseline,
+  Container,
+  Box,
+  Typography,
+  Grid,
+  TextField,
+  Button,
+  CircularProgress,
+  Alert,
+  createTheme,
+  ThemeProvider
+} from '@mui/material';
+import HowToRegIcon from '@mui/icons-material/HowToReg';
 
-    const initFormValue = {
-        name: "",
-        account_name: "",
-        password: "",
-        confirm_password: "",
-        cccd: "",
-        email: "",
-        phone_number: "",
-        dob: "",
-        role: "",
-    };
+const theme = createTheme();
 
-    const isEmptyValue = (value) => {
-        return !value || value.trim().length < 1;
-    };
+const initFormValue = {
+  account_name: '',
+  password: '',
+  name: '',
+  cccd: '',
+  email: '',
+  phone_number: '',
+  date_of_birth: '',
+};
 
-    const isEmailValid = (email) => {
-        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(email);
-    }
+export default function SignUp() {
+  const [formValue, setFormValue] = useState(initFormValue);
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-export default function SignUp () {
-    const [formValue, setFormValue] = useState(initFormValue);
-    const [formError, setFormError] = useState({});
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormValue({ ...formValue, [name]: value });
+  };
 
-    const validateForm = () => {
-        const error = {};
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+    setIsSubmitting(true);
+    setFormErrors({}); 
 
-        if (isEmptyValue(formValue.name)) {
-            error["name"] = "Username is required";
-        }
-
-        if (isEmptyValue(formValue.account_name)) {
-            error["account_name"] = "Account Name is required";
-        }
-
-        if (isEmptyValue(formValue.password)) {
-            error["password"] = "Password is required";
-        }
-
-        if (isEmptyValue(formValue.cccd)) {
-            error["cccd"] = "CCCD is required";
-        }
-
-        if (isEmptyValue(formValue.email)) {
-            error["email"] = "Email is required";
+    axios
+      .post('http://localhost:3001/api/v1/access/register', formValue)
+      .then((res) => {
+        if (res.data.success) {
+          window.location.href = '/';
+          console.log('Đăng ký thành công');
         } else {
-            if (!isEmailValid(formValue.email)) {
-                error["email"] = "Email is invalid";
-            }
+          setFormErrors({ submit: res.data.message });
+          console.log(res.data.message);
         }
+      })
+      .catch((err) => {
+        setFormErrors({ submit: 'Có lỗi xảy ra, vui lòng thử lại.' });
+        console.error(err);
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
 
-        if (isEmptyValue(formValue.phone_number)) {
-            error["phone_number"] = "Phone Number is required";
-        }
-
-        if (isEmptyValue(formValue.confirm_password)) {
-            error["confirm_password"] = "Confirm Password is required";
-        } else if (formValue.confirm_password !== formValue.password) {
-            error["confirm_password"] = "Confirm Password is not match";
-        }
-
-        if (isEmptyValue(formValue.role)) {
-            error["role"] = "Select your role";
-        }
-
-        setFormError(error);
-
-        return Object.keys(error).length == 0;
-    }
-
-    const handleChange = (event) => {
-        const { value, name } = event.target;
-        setFormValue({
-            ...formValue,
-            [name]: value,
-        });
-    };
-
-    const handleSubmit = async () => {
-        await axios.post('http://localhost:3001/api/v1/access/register', formValue).then(res => {
-            if(res.data.success) {
-                      // Đăng nhập thành công, chuyển đến trang chủ
-              window.location.href = '/';
-              console.log("Đăng nhập thành công");
-            } else {
-              console.log(res.data.message)
-            }
-          }).catch(err => {
-            console.log(err)
-          })
-    };
-
-    function handleChangeRole(event) {
-        const { value, role } = event.target;
-        setFormValue({
-            ...formValue,
-            role: value,
-        });
-    }
-    
-
-    console.log(formError);
-
-    return (
-        <div className="register-page">
-            <div className="register-form-container">
-                <div className="title">Register Account</div> 
-                
-                <form onSubmit = {handleSubmit}>
-                    <div className="mb-2">
-                        <label htmlFor="name" className="form-label">
-                            Username
-                        </label>
-                        <input
-                            id="name"
-                            className="form-control"
-                            type="text"
-                            name="name"
-                            value={formValue.name}
-                            onChange={handleChange}
-                        />
-                        {formError.name && (
-                                <div className="error-feedback">{formError.name}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="account_name" className="form-label">
-                            Account Name
-                        </label>
-                        <input
-                            id="account_name"
-                            className="form-control"
-                            type="text"
-                            name="account_name"
-                            value={formValue.account_name}
-                            onChange={handleChange}
-                        />
-                        {formError.account_name && (
-                                <div className="error-feedback">{formError.account_name}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="password" className="form-label">
-                            Password
-                        </label>
-                        <input
-                            id="password"
-                            className="form-control"
-                            type="password"
-                            name="password"
-                            value={formValue.password}
-                            onChange={handleChange}
-                        />
-                        {formError.password && (
-                                <div className="error-feedback">{formError.password}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="confirm_password" className="form-label">
-                            Confirm password
-                        </label>
-                        <input
-                            id="confirm_password"
-                            className="form-control"
-                            type="password"
-                            name="confirm_password"
-                            value={formValue.confirm_password}
-                            onChange={handleChange}
-                        />
-                        {formError.confirm_password && (
-                                <div className="error-feedback">{formError.confirm_password}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="cccd" className="form-label">
-                            CCCD
-                        </label>
-                        <input
-                            id="cccd"
-                            className="form-control"
-                            type="text"
-                            name="cccd"
-                            value={formValue.cccd}
-                            onChange={handleChange}
-                        />
-                        {formError.cccd && (
-                                <div className="error-feedback">{formError.cccd}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="email" className="form-label">
-                            Email
-                        </label>
-                        <input
-                            id="email"
-                            className="form-control"
-                            type="text"
-                            name="email"
-                            value={formValue.email}
-                            onChange={handleChange}
-                        />
-                        {formError.email && (
-                                <div className="error-feedback">{formError.email}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="phone_number" className="form-label">
-                            Phone Number
-                        </label>
-                        <input
-                            id="phone_number"
-                            className="form-control"
-                            type="text"
-                            name="phone_number"
-                            value={formValue.phone_number}
-                            onChange={handleChange}
-                        />
-                        {formError.phone_number && (
-                                <div className="error-feedback">{formError.phone_number}</div>
-                            )}
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="dob" className="form-label">
-                            Date of Birth
-                        </label>
-                        <input
-                            id="dob"
-                            className="form-control"
-                            type="date"
-                            name="dob"
-                            value={formValue.dob}
-                            onChange={handleChange}
-                        />
-                    </div>
-
-                    <div className="mb-2">
-                        <label htmlFor="role" className="form-label">
-                            Role
-                        </label>
-                        <select 
-                            id="role" 
-                            name="role" 
-                            className="form-control"
-                            value={formValue.role}
-                            onChange={handleChangeRole}
-                            >   
-                                <option value="select">Select</option>
-                                <option value="CUSTOMER">Customer</option>
-                                <option value="SELLER">Seller</option>
-                        </select>
-                        {formError.role && (
-                                <div className="error-feedback">{formError.role}</div>
-                            )}
-                    </div>
-
-                    <button type="button" className="submit-button" onClick={handleSubmit}>Register</button>
-                </form>
-            </div>
-        </div>
-    )
+  return (
+    <ThemeProvider theme={theme}>
+      <Grid container component="main" sx={{ height: '100vh' }}>
+        <CssBaseline />
+        <Grid
+          item
+          xs={false}
+          sm={4}
+          md={7}
+          sx={{
+            backgroundImage: 'url(https://source.unsplash.com/random)',
+            backgroundRepeat: 'no-repeat',
+            backgroundColor: (t) =>
+              t.palette.mode === 'light' ? t.palette.grey[50] : t.palette.grey[900],
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+          }}
+        />
+        <Grid item xs={12} sm={8} md={5} component={Box} sx={{ p: 6 }}>
+          <Container maxWidth="sm">
+            <Box
+              sx={{
+                marginTop: 8,
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+              }}
+            >
+            <HowToRegIcon sx={{ fontSize: 40, mb: 2 }} />
+            <Typography component="h1" variant="h5">
+                Sign Up
+            </Typography>
+            <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
+                <Grid container spacing={2}>
+                <Grid item xs={12}>
+                    <TextField
+                    autoComplete="account_name"
+                    name="account_name"
+                    required
+                    fullWidth
+                    id="account_name"
+                    label="Account Name"
+                    autoFocus
+                    value={formValue.account_name}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    name="password"
+                    label="Password"
+                    type="password"
+                    id="password"
+                    autoComplete="current-password"
+                    value={formValue.password}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    id="name"
+                    label="Full Name"
+                    name="name"
+                    autoComplete="name"
+                    value={formValue.name}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    id="cccd"
+                    label="CCCD"
+                    name="cccd"
+                    autoComplete="cccd"
+                    value={formValue.cccd}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    id="email"
+                    label="Email"
+                    name="email"
+                    autoComplete="email"
+                    value={formValue.email}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    id="phone_number"
+                    label="Phone Number"
+                    name="phone_number"
+                    autoComplete="phone_number"
+                    value={formValue.phone_number}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                <Grid item xs={12}>
+                    <TextField
+                    required
+                    fullWidth
+                    id="date_of_birth"
+                    label="Date of Birth"
+                    name="date_of_birth"
+                    type="date"
+                    autoComplete="date_of_birth"
+                    value={formValue.date_of_birth}
+                    onChange={handleChange}
+                    />
+                </Grid>
+                {formErrors.submit && (
+                    <Grid item xs={12}>
+                    <Alert severity="error">{formErrors.submit}</Alert>
+                    </Grid>
+                )}
+                </Grid>
+                <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                disabled={isSubmitting}
+                sx={{ mt: 3, mb: 2 }}
+                >
+                {isSubmitting ? <CircularProgress size={24} /> : 'Đăng Ký'}
+                </Button>
+            </Box>
+            </Box>
+          </Container>
+        </Grid>
+      </Grid>
+    </ThemeProvider>
+  );
 }
+
