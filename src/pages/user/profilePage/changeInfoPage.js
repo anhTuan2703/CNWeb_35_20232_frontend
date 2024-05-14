@@ -14,6 +14,8 @@ const ChangeInfoPage = () => {
     dob_year: "2013" // Năm sinh mặc định là năm 2013
   });
 
+  const [currentTab, setCurrentTab] = useState("tab1"); // Tab hiện tại
+
   const saveUserInfo = async () => {
     try {
       const response = await axios.post('http://localhost:3001/api/v1/user/change-information', {
@@ -34,9 +36,12 @@ const ChangeInfoPage = () => {
     }
   }; 
 
+  const changeTab = (tab) => {
+    setCurrentTab(tab); // Cập nhật tab hiện tại
+  };
+
   return (
-    <>                 
-      <div className="container">
+    <div className="container">
         <div className="row">
           <div className="col-3">
             trai
@@ -220,8 +225,6 @@ const ChangeInfoPage = () => {
           </div>
         </div>
       </div>
-      
-    </>
   );
 };
 

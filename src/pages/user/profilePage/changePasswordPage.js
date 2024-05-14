@@ -70,35 +70,35 @@ const ChangePasswordPage = () => {
             <h2>Đổi mật khẩu</h2>
             {error && <div className="error">{error}</div>}
             <div className="form-group">
-              <label htmlFor="old-password">Mật khẩu cũ:</label>
               <input
                 type="password"
                 id="old-password"
                 name="oldPassword"
                 value={formData.oldPassword}
                 onChange={handleChange}
+                placeholder="Mật khẩu cũ:"
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="new-password">Mật khẩu mới:</label>
               <input
                 type="password"
                 id="new-password"
                 name="newPassword"
                 value={formData.newPassword}
                 onChange={handleChange}
+                placeholder="Mật khẩu mới:"
                 required
               />
             </div>
             <div className="form-group">
-              <label htmlFor="confirm-password">Xác nhận mật khẩu mới:</label>
               <input
                 type="password"
                 id="confirm-password"
                 name="confirmPassword"
                 value={formData.confirmPassword}
                 onChange={handleChange}
+                placeholder="Xác nhận mật khẩu mới"
                 required
               />
             </div>
