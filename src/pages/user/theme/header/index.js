@@ -1,10 +1,10 @@
 import { memo, useState, useRef } from "react";
 import './style.css';
 import { Link } from "react-router-dom";
-import { formater } from "../../../../utils/formater";
 import { ROUTERS } from "../../../../utils/router";
 import { useNavigate } from "react-router-dom";
 import logo from "../../../../img/cropedLogo.png";
+import axios from "axios";
 
 const Header = () => {
   const [menus, setMenus] = useState([
@@ -29,10 +29,18 @@ const Header = () => {
   const navigate = useNavigate();
   const queryInputRef = useRef(null);
 
-  const handleSearch = () => {
+  const handleSearch = async () => {
     const query = queryInputRef.current.value;
-    navigate(`/search?q=${query}`);
-};
+    navigate(`/query?q=${query}`);
+    
+    try {
+      const response = await axios.get(`http://localhost:3001/api/product/query?q=${query}`);
+      console.log('kết quả tìm kiếm:', response.data);
+    } 
+    catch (error) {
+      console.error('Lỗi mẹ rồi:', error);
+    }
+  };
 
   return (
     <>
