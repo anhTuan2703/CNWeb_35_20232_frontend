@@ -14,8 +14,6 @@ const ChangeInfoPage = () => {
     dob_year: "2013" // Năm sinh mặc định là năm 2013
   });
 
-  const [currentTab, setCurrentTab] = useState("tab1"); // Tab hiện tại
-
   const saveUserInfo = async () => {
     try {
       const response = await axios.post('http://localhost:3001/api/v1/user/change-information', {
@@ -200,6 +198,12 @@ const ChangeInfoPage = () => {
                     <option value="1970">1970</option>
                   </select>
                 </div>
+              </div>
+              <div className="profile_info_content">
+                <div className="btn">
+                  <button type="submit" onClick={saveUserInfo}>Lưu</button>
+                </div>
+                
               </div>
             </div>
           </div>

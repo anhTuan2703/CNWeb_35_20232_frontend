@@ -53,11 +53,26 @@
     border-radius: 15px;
     border: 2px solid rgb(137, 247, 192);
     margin-bottom: 30px;
+    padding-bottom: 20px;
     box-shadow: 10px 10px 5px grey;
     .profile_info_content {
         display: flex;
         text-align: center;
-        
+        .btn {
+            width: 100%;
+            height: auto;
+            text-align: center;
+            button {
+                background-color: rgb(13, 171, 108);
+                border: none;
+                width: 150px;
+                height: 40px;
+                border-radius: 10px;
+            }
+            button:hover{
+                background-color: aquamarine;
+            }
+        }
         .left_content {
             width: 40%;
             padding-left: 20px;
