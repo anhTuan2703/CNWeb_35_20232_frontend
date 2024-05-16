@@ -5,22 +5,11 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "../../../style/style.css";
 import { AiOutlineEye, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import category from '../../../data/productData';
 import { ROUTERS } from '../../../utils/router';
 
 const HomePage = () => {
-  const MenuItem = ({item}) => (
-    
-    <div className="cart-item">
-      <img className="item-image" src={item[0].image} alt={item[0].name} />
-      <div className="item-details">
-        <span className="item-name">{item[0].name}</span>
-        <span className="item-price">{item[0].price} VNĐ</span>
-      </div>
-    </div>
-  );
-
   const [menuItems, setMenuItems] = useState([]);
+  const [categories, setCategories] = useState({});
 
   const fetchMenuItems = async () => {
     try {
@@ -28,16 +17,12 @@ const HomePage = () => {
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
-      
-      const text = await response.json();
-      try {
-        const data = JSON.parse(text);
-        setMenuItems(data.menuItem || []);
-      } catch (jsonError) {
-        throw new Error('Could not parse JSON: ' + jsonError.message);
-      }
+      const data = await response.json();
+      setMenuItems(data || []);
+      // Giả sử dữ liệu trả về có cấu trúc { categories: { ... }, products: [...] }
+      setCategories(data.categories || {});
     } catch (error) {
-      console.error('Could not fetch cart and shipping info:', error);
+      console.error('Could not fetch products:', error);
     }
   };
 
@@ -45,17 +30,17 @@ const HomePage = () => {
     fetchMenuItems();
   }, []);
 
-  const addToCart = async (item) => {
+  const addToCart = async (customerID, item) => {
     try {
-      const response = await fetch('http://localhost:3000/api/order/product/' + item.id, {
+      const response = await fetch(`http://localhost:3001/api/order/customer/${customerID}/product/${item.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ item }),
+        body: JSON.stringify({ quantity: 1 }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
       });
       if (!response.ok) throw new Error('Lỗi khi thêm vào giỏ hàng.');
-
+  
       const result = await response.json();
       if (result.success) {
         alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
@@ -70,17 +55,18 @@ const HomePage = () => {
       return false;
     }
   };
+  
 
-  const renderProducts = (data) => {
+  const renderProducts = () => {
     const tabList = [];
     const tabPanels = [];
 
-    Object.keys(data).forEach((key, index) => {
-      tabList.push(<Tab key={index}>{data[key].title}</Tab>);
+    Object.keys(categories).forEach((key, index) => {
+      tabList.push(<Tab key={index}>{categories[key].title}</Tab>);
 
-      const tabPanel = [];
-      data[key].products.forEach((item, j) => {
-        tabPanel.push(
+      const tabPanel = menuItems
+        .filter(item => item.categoryId === categories[key].id)
+        .map((item, j) => (
           <div className="col-3" key={j}>
             <div className="product_item">
               <div className="product_item_pic" style={{ backgroundImage: `url(${item.img})` }}>
@@ -101,19 +87,19 @@ const HomePage = () => {
               </div>
             </div>
           </div>
-        );
-      });
-      tabPanels.push(tabPanel);
+        ));
+
+      tabPanels.push(
+        <TabPanel key={key}>
+          <div className="row">{tabPanel}</div>
+        </TabPanel>
+      );
     });
 
     return (
       <Tabs>
         <TabList>{tabList}</TabList>
-        {tabPanels.map((item, key) => (
-          <TabPanel key={key}>
-            <div className="row">{item}</div>
-          </TabPanel>
-        ))}
+        {tabPanels}
       </Tabs>
     );
   };
@@ -124,13 +110,8 @@ const HomePage = () => {
         <div className="title">
           <h3>Sản phẩm nổi bật</h3>
         </div>
-        <MenuItem
-          key={item.id}
-          item={item}
-        />
-        
         {/* Hiển thị danh sách sản phẩm */}
-        {renderProducts(category)}
+        {renderProducts()}
       </div>
     </div>
   );

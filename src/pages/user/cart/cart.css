@@ -25,7 +25,6 @@
     margin-bottom: 10px;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-image {
@@ -39,7 +38,6 @@
 .item-details {
     flex-grow: 1;
     margin-right: 20px;
-    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-name {
@@ -52,13 +50,11 @@
 .item-quantity-controls {
     display: flex;
     align-items: center;
-    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .item-price {
     font-weight: bold;
     margin-right: 20px;
-    padding-left: 25px; /* Thêm lề bên trái */
 }
 
 .total-price {
@@ -68,100 +64,4 @@
     margin-top: 20px;
     border-top: 1px solid black 90%;
     padding-top: 10px;
-}
-
-.checkout-button {
-    background-color: rgb(3, 109, 74);
-    color: white;
-    text-align: center;
-    padding: 10px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    margin-top: 20px;
-    width: 100px; 
-}
-
-.quantity-decrease,
-.quantity-increase {
-    background-color: #007BFF;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    padding: 5px;
-    margin: 0 5px;
-    width: 30px;
-    height: 30px;
-}
-
-.quantity-input {
-    width: 50px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    margin: 0 10px;
-}
-
-.shipping-info {
-    display: flex;
-    flex-direction: column;
-    margin-top: 20px;
-    padding-left: 25px; /* Thêm lề bên trái */
-}
-
-.shipping-info input[type="text"] {
-    padding: 10px;
-    margin-top: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    width: calc(90% - 25px); /* Điều chỉnh chiều rộng để tính đến lề bên trái */
-}
-
-.save-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    text-align: center;
-    display: inline-block;
-    font-size: 14px;
-    cursor: pointer;
-    border: none;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-    margin-top: 20px;
-    position: absolute; /* Đặt nút theo vị trí tuyệt đối */
-    right: 20px; /* Đặt nút cách lề phải 20px */
-    bottom: 60px; /* Đặt nút cách lề dưới 60px để tạo khoảng cách 20px với nút thanh toán */
-}
-
-.save-button:active {
-    background-color: #3e8e41;
-}
-
-.checkout-button {
-    background-color: #28a745; /* Màu xanh lá cây */
-    color: white;
-    padding: 10px 20px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    position: absolute; /* Đặt nút theo vị trí tuyệt đối */
-    right: 20px; /* Đặt nút cách lề phải 20px */
-    bottom: 20px; /* Đặt nút cách lề dưới 20px */
-}
-
-.checkout-button:hover {
-    background-color: #218838; /* Màu xanh lá cây đậm hơn khi hover */
-}
-
-.checkout-button:disabled {
-    background-color: #cccccc; /* Màu xám khi nút bị vô hiệu hóa */
-    cursor: not-allowed;
 }

@@ -11,17 +11,17 @@ const ProductPage = () => {
   const productID = searchParams.get("productID");
 
   // Hàm này sẽ thêm một item vào giỏ hàng trong cơ sở dữ liệu
-  const addToCart = async (item) => {
+  const addToCart = async (customerID, item) => {
     try {
-      const response = await fetch(' api/order/:orderId/product/:productId', {
+      const response = await fetch(`http://localhost:3001/api/order/customer/${customerID}/product/${item.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ item }),
+        body: JSON.stringify({ quantity: 1 }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
       });
       if (!response.ok) throw new Error('Lỗi khi thêm vào giỏ hàng.');
-
+  
       const result = await response.json();
       if (result.success) {
         alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
@@ -35,7 +35,7 @@ const ProductPage = () => {
       alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
       return false;
     }
-  };
+  };  
 
   const renderProduct = (pID) => {
     for (const categoryKey in category) {
