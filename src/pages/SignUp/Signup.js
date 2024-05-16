@@ -46,7 +46,7 @@ export default function SignUp() {
       .post('http://localhost:3001/api/v1/access/register', formValue)
       .then((res) => {
         if (res.data.success) {
-          window.location.href = '/';
+          window.location.href = '/home';
           console.log('Đăng ký thành công');
         } else {
           setFormErrors({ submit: res.data.message });
