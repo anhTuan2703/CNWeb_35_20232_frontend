@@ -5,7 +5,15 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "../../../style/style.css";
 import { AiOutlineEye, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
+import Slider from 'react-slick';
 import { ROUTERS } from '../../../utils/router';
+import Slidejpg1 from "../../../img/slide1.jpg";
+import Slidejpg2 from "../../../img/slide2.jpg";
+import Slidejpg3 from "../../../img/slide3.jpg";
+import ImageSlider from "./ImageSlider";
+import secu from "../../../img/security.png";
+import deli from "../../../img/delivery-truck.png";
+import undo from "../../../img/undo.png";
 
 const HomePage = () => {
   const [menuItems, setMenuItems] = useState([]);
@@ -104,16 +112,59 @@ const HomePage = () => {
     );
   };
 
+  const slides = [
+    { url: Slidejpg1, title: "sl1" },
+    { url: Slidejpg2, title: "sl2" },
+    { url: Slidejpg3, title: "sl3" },
+  ];
+  const containerStyles = {
+    width: "800px",
+    height: "280px",
+    margin: "0 auto",
+  };
+
   return (
-    <div className="container">
-      <div className="product-grid">
-        <div className="title">
-          <h3>Sản phẩm nổi bật</h3>
-        </div>
-        {/* Hiển thị danh sách sản phẩm */}
-        {renderProducts()}
+    <>
+      <div style={containerStyles}>
+        <ImageSlider slides={slides}/>
       </div>
+
+      <div className="sub-banner">
+        <div className="item">
+            <img src={secu} alt=""/>
+            <div className="text">
+                <p>BẢO HÀNH</p>
+                <p>ÍT NHẤT <span>1 NĂM</span></p>
+            </div>
+        </div>
+
+        <div className="item">
+            <img src={undo} alt=""/>
+            <div className="text">
+                <p>ĐỔI/TRẢ MIỄN PHÍ</p>
+                <p>TRONG <span>30 NGÀY</span></p>
+            </div>
+        </div>
+
+        <div className="item">
+            <img src={deli} alt=""/>
+            <div className="text">
+                <p><span>MIỄN PHÍ </span>VẬN CHUYỂN</p>
+                <p>ĐƠN TỪ 499.000Đ</p>
+            </div>
+        </div>
     </div>
+
+      <div className="container">
+        <div className="product-grid">
+          <div className="title">
+            <h3>Sản phẩm nổi bật</h3>
+          </div>
+          {/* Hiển thị danh sách sản phẩm */}
+          {renderProducts()}
+        </div>
+      </div>
+    </>
   );
 };
 
