@@ -28,7 +28,8 @@ const HomePage = () => {
       setMenuItems(data || []);
       // Giả sử dữ liệu trả về có cấu trúc { categories: { ... }, products: [...] }
       setCategories(data.categories || {});
-    } catch (error) {
+    } 
+    catch (error) {
       console.error('Could not fetch products:', error);
     }
   };
