@@ -5,7 +5,6 @@ import { Tab, TabList, TabPanel, Tabs } from "react-tabs";
 import "../../../style/style.css";
 import { AiOutlineEye, AiOutlineShoppingCart } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import Slider from 'react-slick';
 import { ROUTERS } from '../../../utils/router';
 import Slidejpg1 from "../../../img/slide1.jpg";
 import Slidejpg2 from "../../../img/slide2.jpg";
@@ -131,27 +130,27 @@ const HomePage = () => {
 
       <div className="sub-banner">
         <div className="item">
-            <img src={secu} alt=""/>
-            <div className="text">
-                <p>BẢO HÀNH</p>
-                <p>ÍT NHẤT <span>1 NĂM</span></p>
-            </div>
+          <img src={secu} alt=""/>
+          <div className="text">
+            <p>BẢO HÀNH</p>
+            <p>ÍT NHẤT <span>1 NĂM</span></p>
+          </div>
         </div>
 
         <div className="item">
-            <img src={undo} alt=""/>
-            <div className="text">
-                <p>ĐỔI/TRẢ MIỄN PHÍ</p>
-                <p>TRONG <span>30 NGÀY</span></p>
-            </div>
+          <img src={undo} alt=""/>
+          <div className="text">
+            <p>ĐỔI/TRẢ MIỄN PHÍ</p>
+            <p>TRONG <span>30 NGÀY</span></p>
+          </div>
         </div>
 
         <div className="item">
-            <img src={deli} alt=""/>
-            <div className="text">
-                <p><span>MIỄN PHÍ </span>VẬN CHUYỂN</p>
-                <p>ĐƠN TỪ 499.000Đ</p>
-            </div>
+          <img src={deli} alt=""/>
+          <div className="text">
+            <p><span>MIỄN PHÍ </span>VẬN CHUYỂN</p>
+            <p>ĐƠN TỪ 499.000Đ</p>
+          </div>
         </div>
     </div>
 
