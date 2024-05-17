@@ -11,24 +11,25 @@ export const SearchBar = ( {setResults} ) => {
     .then((response)=>response.json())
     .then(json => {
       const results = json.filter((user)=>{
-      return (
-        value 
-        && user 
-        && user.name 
-        && user.name.toLowerCase().includes(value)
-      );
-    })
-    setResults(results);
-    //console.log(results);
-  });
-}
+        return (
+          value 
+          && user 
+          && user.name 
+          && user.name.toLowerCase().includes(value)
+        );
+      })
+      setResults(results);
+      //console.log(results);
+    });
+  } 
 
   const handleChange =(value) => {
-    console.log(localStorage.getItem("query", value));
+    //console.log(localStorage.getItem("query", value));
+    //localStorage.getItem("query", value);
     setInput(value);
-    localStorage.getItem("query", value);
+    //localStorage.getItem("query", value);
     fetchdata(value);
-    return value; 
+    //return value; 
   };
 
   return (

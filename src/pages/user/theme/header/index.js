@@ -77,7 +77,8 @@ const Header = () => {
         <div className="search-bar">
           <div className="search-field">
             <SearchBar setResults={setResults} />
-            <SearchResultsList results={results} />
+            {<SearchResultsList results={results} />}
+            {/*results && results.length > 0 && <SearchResultsList results={results} />*/}
           </div>
           {/*<button className="btn-search" onClick={handleSearch}>Tìm kiếm</button>*/}
         </div>
