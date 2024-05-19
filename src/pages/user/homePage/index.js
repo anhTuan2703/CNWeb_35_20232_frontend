@@ -14,11 +14,6 @@ import deli from "../../../img/delivery-truck.png";
 import undo from "../../../img/undo.png";
 
 import "./style.css";
-
-
-
-
-
 // const addToCart = async (item) => {
 //   try {
 //     const response = await fetch(`http://localhost:3001/api/v1/order/add-product/${item.id}`, {
@@ -72,39 +67,6 @@ const HomePage = () => {
     </div>
   ));
 
-  // const ProductItem = memo(({ item }) => (
-  //   <Grid item xs={12} sm={4} md={4} lg={2} style={{margin: '10px'}}>
-  //     <Card sx={{ maxHeight: 350, maxWidth: 250 }}>
-  //       <CardMedia
-  //         component="div"
-  //         height="260px" 
-  //         image={item.image}
-  //         style={{ border: '1px solid #ddd', borderRadius: '8px'}}
-  //         sx={{ height: 200 }}
-  //       >
-  //         <ul className="product_item_pic_hover">
-  //           <li>
-  //             <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`}>
-  //               <AiOutlineEye style={{ fontSize: '30px', color:'red' }} /> {/* Adjust icon size */}
-  //             </Link>
-  //           </li>
-  //           <li onClick={() => addToCart(item)}>
-  //             <AiOutlineShoppingCart style={{ fontSize: '30px', color: 'red' }} /> {/* Adjust icon size */}
-  //           </li>
-  //         </ul>
-  //       </CardMedia>
-  //       <CardContent>
-  //         <Typography variant="h6" component="div">
-  //           <Link to="">{item.name}</Link>
-  //         </Typography>
-  //         <Typography variant="h5" component="div">
-  //           {formater(item.price)}
-  //         </Typography>
-  //       </CardContent>
-  //     </Card>
-  //   </Grid>
-  // ));
-
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (token) {
@@ -149,6 +111,7 @@ const HomePage = () => {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
       const data = await response.json();
+      console.log(data);
       setMenuItems(data || []);
     } catch (error) {
       console.error('Could not fetch products:', error);
@@ -200,12 +163,13 @@ const HomePage = () => {
                 <p>ĐƠN TỪ 499.000Đ</p>
             </div>
         </div>
-    </div>
+      </div>
 
       <div className="container container2" >
         {menuItems.map((item) => (
           <ProductItem key={item.id} item={item} />
         ))}
+        
       </div>
     </>
   );
