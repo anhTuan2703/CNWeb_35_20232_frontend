@@ -14,6 +14,7 @@ import Grid from '@mui/material/Grid';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { ROUTERS } from '../../utils/router';
 
 const theme = createTheme();
 
@@ -29,7 +30,7 @@ export default function Login() {
       });
       if (res.data.success) {
         localStorage.setItem('token', res.data.token);
-        navigate('/home');
+        navigate(ROUTERS.USER.HOME);
         console.log("Đăng nhập thành công");
         alert('Đang nhập thành công!');
       } else {

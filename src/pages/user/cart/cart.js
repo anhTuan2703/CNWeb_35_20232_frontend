@@ -20,7 +20,7 @@ const CartItem = memo(({ item, onQuantityChange, onDelete  }) => (
                 <RemoveIcon />
                 </IconButton>
                 <InputBase
-                    value={item.quantity}
+                    value={item.amount}
                     readOnly
                     sx={{
                     width: '40px', 
@@ -45,13 +45,23 @@ const CartItem = memo(({ item, onQuantityChange, onDelete  }) => (
     </Card>
   ));
 
-// Hàm này sẽ gửi dữ liệu cập nhật đến backend sử dụng customerID
+
+
+// Component CartsPage để quản lý trang giỏ hàng
+const CartsPage = () => {
+  const [cart, setCart] = useState([]);
+  const [shippingInfo, setShippingInfo] = useState({});
+  const [shippingFee, setShippingFee] = useState(0);
+  const [isDataChanged, setIsDataChanged] = useState(false);
+  const [customerID, setCustomerID] = useState(null);
+
+  // Hàm này sẽ gửi dữ liệu cập nhật đến backend sử dụng customerID
 const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
   try {
     // Chuyển đổi dữ liệu giỏ hàng để phù hợp với cấu trúc backend mong đợi
     const itemsOrder = cart.map(item => ({
       id: item.id.toString(),
-      amount: item.quantity.toString()
+      amount: item.amount.toString()
     }));
 
     // Cập nhật thông tin giao hàng để phù hợp với tên trường của backend
@@ -62,25 +72,17 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
     };
 
     // Gửi yêu cầu cập nhật giỏ hàng
-    const cartResponse = await fetch(`http://localhost:3001/api/order/cart/${customerID}`, {
-      method: 'POST',
+    const cartResponse = await fetch(`http://localhost:3001/api/v1/order/${customerID}`, {
+      method: 'PUT',
       headers: {
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ items_order: itemsOrder }),
+      body: JSON.stringify({  items_order: itemsOrder, 
+                              shipping_info: updatedShippingInfo}),
+                              ship_price: shippingFee,
+
     });
     if (!cartResponse.ok) throw new Error('Lỗi cập nhật giỏ hàng.');
-
-    // Gửi yêu cầu cập nhật thông tin giao hàng
-    const shippingResponse = await fetch(`api/order/shipping/${customerID}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ shipping_info: updatedShippingInfo }),
-    });
-    if (!shippingResponse.ok) throw new Error('Lỗi cập nhật thông tin giao hàng.');
-
     alert('Các thay đổi đã được lưu thành công!');
   } catch (error) {
     console.error('Error:', error);
@@ -88,37 +90,41 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
   }
 };
 
-// Component CartsPage để quản lý trang giỏ hàng
-const CartsPage = () => {
-  const [cart, setCart] = useState([]);
-  const [shippingInfo, setShippingInfo] = useState({});
-  const [shippingFee, setShippingFee] = useState(0);
-  const [isDataChanged, setIsDataChanged] = useState(false);
-  const [customerID, setCustomerID] = useState(null);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
+    } else {
+      console.log("Không tìm thấy token");
+    }
+  }, []);
 
   // Hàm lấy thông tin giỏ hàng, thông tin giao hàng và phí ship từ backend
-  const fetchCartAndShippingInfo = async () => {
+  const fetchCartAndShippingInfo = async (customerID) => {
     try {
-      const response = await fetch('http://localhost:3001/api/cart/details');
+      const response = await fetch(`http://localhost:3001/api/v1/order/details/${customerID}`);
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
       const data = await response.json();
-      setCart(data.cartItems);
-      setShippingInfo(data.shippingInfo);
-      setShippingFee(data.shippingFee);
+      setCart(data.data.items_order);
+      setShippingInfo(data.data.shipping_info);
+      setShippingFee(data.data.ship_price);
+      console.log("order details");
     } catch (error) {
       console.error('Could not fetch cart and shipping info:', error);
     }
   };
-  const addToCart = async (customerID, item) => {
+
+  const addToCart = async (item) => {
     try {
-      const response = await fetch(`http://localhost:3001/api/order/customer/${customerID}/product/${item.id}`, {
+      const response = await fetch(`http://localhost:3001/api/v1/order/add-product/${item.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ quantity: 1 }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
+        body: JSON.stringify({ customer_id: customerID }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
       });
       if (!response.ok) throw new Error('Lỗi khi thêm vào giỏ hàng.');
   
@@ -138,27 +144,19 @@ const CartsPage = () => {
   };
 
   // Lấy customerID từ token lưu trong localStorage
-  useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (token) {
-      const decodedToken = jwtDecode(token);
-      setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
-    } else {
-      console.log("Không tìm thấy token");
-    }
-  }, []);
+  
 
   // Khi có customerID, lấy thông tin giỏ hàng và thông tin giao hàng
   useEffect(() => {
     if (customerID) {
-      fetchCartAndShippingInfo();
+      fetchCartAndShippingInfo(customerID);
     }
   }, [customerID]);
 
   // Xử lý thay đổi số lượng sản phẩm
   const handleQuantityChange = (itemId, delta) => {
     const newCart = cart.map(item => 
-      item.id === itemId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item
+      item.id === itemId ? { ...item, amount: Math.max(1, item.amount + delta) } : item
     );
     setCart(newCart);
     setIsDataChanged(true);
@@ -188,19 +186,18 @@ const CartsPage = () => {
   // Xử lý thanh toán
   const handleCheckout = async () => {
     try {
-      const response = await fetch('http://localhost:3001/api/checkout', {
-        method: 'POST',
+      const response = await fetch(`http://localhost:3001/api/v1/order/place-order/${customerID}`, {
+        method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ cart, customerID }),
+        }
       });
+
       if (!response.ok) throw new Error('Lỗi khi thực hiện thanh toán.');
 
       const result = await response.json();
       if (result.success) {
         alert('Thanh toán thành công!');
-        // Xử lý sau khi thanh toán thành công (ví dụ: cập nhật UI, chuyển hướng, v.v.)
       } else {
         alert('Thanh toán không thành công.');
       }
@@ -210,9 +207,10 @@ const CartsPage = () => {
     }
   };
 
+
   // Tính tổng giá trị đơn hàng cùng phí ship
   const calculateTotalPriceWithShipping = () => {
-    const totalPrice = cart.reduce((total, item) => total + item.price * item.quantity, 0);
+    const totalPrice = cart.reduce((total, item) => total + item.price * item.amount, 0);
     return totalPrice + shippingFee;
   };
 
