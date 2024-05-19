@@ -16,29 +16,7 @@ import undo from "../../../img/undo.png";
 import "./style.css";
 
 
-const ProductItem = memo(({ item }) => (
-  <div className="product-grid">
-    <div className="product_item">
-      <div className="product_item_pic" style={{backgroundImage: `url(${item.image})`}}> 
-        <ul className="product_item_pic_hover">
-          <li>
-            <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`} target ="_blank">
-              <AiOutlineEye />
-            </Link>
-          </li>
-          <li onClick={() => addToCart(item)}>
-            <AiOutlineShoppingCart/>
-          </li>
-        </ul>
-      </div>
-      <div className='product_item_text'>
-        <h6>{item.name}</h6>
-        <h5>{formater(item.price)}</h5>
-      </div>
-    </div>
-  </div>
 
-));
 
 
 // const addToCart = async (item) => {
@@ -72,37 +50,60 @@ const HomePage = () => {
   const [customerID, setCustomerID] = useState(null);
 
   const ProductItem = memo(({ item }) => (
-    <Grid item xs={12} sm={4} md={4} lg={2} style={{margin: '10px'}}>
-      <Card sx={{ maxHeight: 350, maxWidth: 250 }}>
-        <CardMedia
-          component="div"
-          height="260px" 
-          image={item.image}
-          style={{ border: '1px solid #ddd', borderRadius: '8px'}}
-          sx={{ height: 200 }}
-        >
+    <div className="product-grid">
+      <div className="product_item">
+        <div className="product_item_pic" style={{backgroundImage: `url(${item.image})`}}> 
           <ul className="product_item_pic_hover">
             <li>
-              <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`}>
-                <AiOutlineEye style={{ fontSize: '30px', color:'red' }} /> {/* Adjust icon size */}
+              <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`} target ="_blank">
+                <AiOutlineEye />
               </Link>
             </li>
             <li onClick={() => addToCart(item)}>
-              <AiOutlineShoppingCart style={{ fontSize: '30px', color: 'red' }} /> {/* Adjust icon size */}
+              <AiOutlineShoppingCart/>
             </li>
           </ul>
-        </CardMedia>
-        <CardContent>
-          <Typography variant="h6" component="div">
-            <Link to="">{item.name}</Link>
-          </Typography>
-          <Typography variant="h5" component="div">
-            {formater(item.price)}
-          </Typography>
-        </CardContent>
-      </Card>
-    </Grid>
+        </div>
+        <div className='product_item_text'>
+          <h6>{item.name}</h6>
+          <h5>{formater(item.price)}</h5>
+        </div>
+      </div>
+    </div>
   ));
+
+  // const ProductItem = memo(({ item }) => (
+  //   <Grid item xs={12} sm={4} md={4} lg={2} style={{margin: '10px'}}>
+  //     <Card sx={{ maxHeight: 350, maxWidth: 250 }}>
+  //       <CardMedia
+  //         component="div"
+  //         height="260px" 
+  //         image={item.image}
+  //         style={{ border: '1px solid #ddd', borderRadius: '8px'}}
+  //         sx={{ height: 200 }}
+  //       >
+  //         <ul className="product_item_pic_hover">
+  //           <li>
+  //             <Link to={`${ROUTERS.USER.PRODUCT}?productID=${item.id}`}>
+  //               <AiOutlineEye style={{ fontSize: '30px', color:'red' }} /> {/* Adjust icon size */}
+  //             </Link>
+  //           </li>
+  //           <li onClick={() => addToCart(item)}>
+  //             <AiOutlineShoppingCart style={{ fontSize: '30px', color: 'red' }} /> {/* Adjust icon size */}
+  //           </li>
+  //         </ul>
+  //       </CardMedia>
+  //       <CardContent>
+  //         <Typography variant="h6" component="div">
+  //           <Link to="">{item.name}</Link>
+  //         </Typography>
+  //         <Typography variant="h5" component="div">
+  //           {formater(item.price)}
+  //         </Typography>
+  //       </CardContent>
+  //     </Card>
+  //   </Grid>
+  // ));
 
   useEffect(() => {
     const token = localStorage.getItem('token');
