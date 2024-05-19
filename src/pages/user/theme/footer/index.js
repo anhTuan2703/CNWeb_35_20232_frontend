@@ -71,15 +71,15 @@ const Footer = () => {
             <h1>THEO DÕI CHÚNG TÔI TRÊN</h1>
             <ul>
               <li>
-                <Link to={""}>
+                <Link to={"https://www.facebook.com/profile.php?id=61559959642168"} target="_blank">
                   <AiOutlineFacebook /> <span>Facebook</span>
                 </Link>
               </li>
-              <li>
+              {/*<li>
                 <Link to={""}>
                   <AiOutlineInstagram /> <span>Instagram</span>
                 </Link>
-              </li>
+              </li>*/}
             </ul>
           </div>
         </div>
