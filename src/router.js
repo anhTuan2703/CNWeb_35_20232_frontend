@@ -10,6 +10,7 @@ import CartsPage from "./pages/user/cart/cart";
 import ProductPage from "./pages/user/productPage";
 import SignUp from "./pages/signup/signup";
 import ChangePasswordPage from "./pages/user/profilePage/changePasswordPage";
+import AdminPage from "./pages/admin";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -40,6 +41,10 @@ const renderUserRouter = () => {
     {
       path: `${ROUTERS.USER.HOME}/product`,
       component: <ProductPage/>
+    },
+    {
+      path: ROUTERS.USER.ADMIN,
+      component: <AdminPage/>
     },
   ];
 

@@ -4,11 +4,11 @@ export const ROUTERS = {
     SIGNUP: "signup",
     HOME: "home",
     ACCESS: "access",
-    BLOGS: "blogs",
     CHANGE_INFORMATION: "change-information",
     PROFILE: "profile",
     CART: "cart",
     PRODUCT: "product",
     CHANGE_PASSWORD: "change-password",
+    ADMIN: "admin"
   },
 };
