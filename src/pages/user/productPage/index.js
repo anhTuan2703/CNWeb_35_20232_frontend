@@ -2,28 +2,42 @@ import { memo, useState, useEffect } from "react";
 import React from "react";
 import { useLocation } from "react-router-dom";
 import { formater } from "../../../utils/formater";
+
+import {jwtDecode} from 'jwt-decode';
 import "./style.css"; 
 
 const ProductPage = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const productID = searchParams.get("productID");
+  const [customerID, setCustomerID] = useState(null);
   //console.log(productID);
 
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
+    } else {
+      console.log("Không tìm thấy token");
+    }
+  }, []);
+
   // Hàm này sẽ thêm một item vào giỏ hàng trong cơ sở dữ liệu
-  const addToCart = async (customerID, item) => {
+  const addToCart = async () => {
     try {
-      const response = await fetch(`http://localhost:3001/api/order/customer/${customerID}/product/${item.id}`, {
+      const response = await fetch(`http://localhost:3001/api/v1/order/add-product/${productID}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ quantity: 1 }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
+        body: JSON.stringify({ customer_id: customerID }), // Giả sử bạn chỉ muốn thêm 1 sản phẩm
       });
       if (!response.ok) throw new Error('Lỗi khi thêm vào giỏ hàng.');
   
       const result = await response.json();
-      if (result.success) {
+      console.log('hi' + result.success)
+      if (result.success == true) {
         alert('Sản phẩm đã được thêm vào giỏ hàng thành công!');
         return true;
       } else {
@@ -35,7 +49,7 @@ const ProductPage = () => {
       alert('Có lỗi xảy ra khi thêm sản phẩm vào giỏ hàng.');
       return false;
     }
-  };  
+  }; 
 
   const [product, setProduct] = useState(null);
   const fetchProduct = async () => {
