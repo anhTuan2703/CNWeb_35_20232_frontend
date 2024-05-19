@@ -1,4 +1,4 @@
-import React, { useState, useEffect, memo } from 'react';
+import React, { useState, useEffect, memo, useRef} from 'react';
 import {jwtDecode} from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineShoppingCart } from 'react-icons/ai';
@@ -14,7 +14,7 @@ import deli from "../../../img/delivery-truck.png";
 import undo from "../../../img/undo.png";
 import "./style.css";
 
-const HomePage = () => {
+const SearchResultPage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [customerID, setCustomerID] = useState(null);
 
@@ -79,8 +79,10 @@ const HomePage = () => {
   };
 
   const fetchMenuItems = async () => {
+    const query = localStorage.getItem('searchQuery');
+    console.log(query);
     try {
-      const response = await fetch('http://localhost:3001/api/v1/product/all-product');
+      const response = await fetch(`http://localhost:3001/api/v1/product/search?q=${query}`);
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
@@ -149,4 +151,4 @@ const HomePage = () => {
   );
 };
 
-export default memo(HomePage);
+export default memo(SearchResultPage);

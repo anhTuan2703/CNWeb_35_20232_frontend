@@ -11,6 +11,7 @@ import ProductPage from "./pages/user/productPage";
 import SignUp from "./pages/signup/signup";
 import ChangePasswordPage from "./pages/user/profilePage/changePasswordPage";
 import AdminPage from "./pages/admin";
+import SearchResultPage from "./pages/user/homePage/searchResultPage";
 
 const renderUserRouter = () => {
   const userRouters = [
@@ -45,6 +46,10 @@ const renderUserRouter = () => {
     {
       path: ROUTERS.USER.ADMIN,
       component: <AdminPage/>
+    },
+    {
+      path: ROUTERS.USER.SEARCH,
+      component: <SearchResultPage/>
     },
   ];
 
