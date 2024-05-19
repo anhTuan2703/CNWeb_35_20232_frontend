@@ -27,31 +27,23 @@ const Header = () => {
     }
   ]);
 
-  const navigate = useNavigate();
   const queryInputRef = useRef(null);
 
-  const handleSearch = async () => {
-    const query = queryInputRef.current.value;
-    navigate(`/query?q=${query}`);
-    
-    try {
-      const response = await axios.get(`http://localhost:3001/api/product/query?q=${query}`);
-      console.log('kết quả tìm kiếm:', response.data);
-    } 
-    catch (error) {
-      console.error('Lỗi mẹ rồi:', error);
-    }
-  };
-
   const [value, setValue] = useState();
+  const [searchVal, setSearchVal] = useState('');
   const [data, setData] = useState([]);
   const handleChange = (e) => {
     const { value } = e.target;
     setValue(value);
-
+    setSearchVal(e.target.value);
     // Lọc dữ liệu từ data.json thay vì gọi API
     const filteredData = searchingData.filter(item => item.title.startsWith(value));
     setData(filteredData.slice(0, 5)); // Giới hạn số lượng item hiển thị
+  };
+
+  const handleSearch = () => {
+    localStorage.setItem('searchQuery', searchVal);
+    console.log('Saved to localStorage:', searchVal);
   };
 
   return (
@@ -92,7 +84,9 @@ const Header = () => {
             </svg>
             <input type="text" onChange={handleChange} value={value} ref={queryInputRef}/>
           </div>
-          <button className="btn-search" onClick={handleSearch} >Tìm kiếm</button>
+          <Link to={ROUTERS.USER.SEARCH}>
+            <button className="btn-search" onClick={() => { handleSearch(); window.location.reload(); }}>Tìm kiếm</button>  
+          </Link>
         </div>
         <div className="search_result_list">
           {
