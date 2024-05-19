@@ -1,9 +1,8 @@
 import React, { useState, useEffect, memo } from 'react';
 import {jwtDecode} from 'jwt-decode';
-import {jwtDecode} from 'jwt-decode';
 import { Link } from 'react-router-dom';
 import { AiOutlineEye, AiOutlineShoppingCart } from 'react-icons/ai';
-import { ROUTERS } from '../../../`````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````````utils/router';
+import { ROUTERS } from '../../../utils/router';
 import { formater } from '../../../utils/formater';
 import Slider from 'react-slick';
 import slidejpg1 from "../../../img/slide1.jpg"
