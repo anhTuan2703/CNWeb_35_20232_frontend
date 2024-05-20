@@ -73,7 +73,7 @@ const AdminPage = () => {
 
   const fetchMenuCategory = async () => {
     try {
-      const response =await fetch('http://locallhost/api/v1/category/all');
+      const response =await fetch('http://localhost:3001/api/v1/category/all');
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
@@ -128,7 +128,7 @@ const AdminPage = () => {
     // Gửi yêu cầu lưu sản phẩm đến backend
     try {
       setIsSubmitting(true);
-      const response = await axios.post('http://localhost:3001/api/v1/product/save', formValue);
+      const response = await axios.post('http://localhost:3001/api/v1/product/create', formValue);
       if (response.status === 200) {
         // Lưu sản phẩm thành công, có thể thực hiện các tác vụ cần thiết, ví dụ: cập nhật lại danh sách sản phẩm
         fetchMenuItems();
@@ -220,7 +220,7 @@ const AdminPage = () => {
                       fullWidth
                       name="name"
                       label="Tên danh mục mới"
-                      value={formValue.name}
+                      value={nameCategory.name}
                       onChange={handleChangeCategory}
                       />
                   </Grid>
@@ -289,7 +289,7 @@ const AdminPage = () => {
                         fullWidth
                         labelId="category"
                         id="category"
-                        name='Danh mục'
+                        name='category'
                         value={formValue.category}
                         label="Danh mục"
                         onChange={handleChange}
