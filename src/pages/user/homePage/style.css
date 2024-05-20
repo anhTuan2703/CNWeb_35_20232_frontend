@@ -148,3 +148,13 @@
       }
   }
 }
+
+.refresh-button {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #ff0000; /* Thay đổi màu sắc tại đây */
+  color: #fff; /* Thay đổi màu sắc chữ tại đây */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}

@@ -17,6 +17,7 @@ import "./style.css";
 const HomePage = () => {
   const [menuItems, setMenuItems] = useState([]);
   const [customerID, setCustomerID] = useState(null);
+  const [isRandomizing, setIsRandomizing] = useState(true);
 
   const ProductItem = memo(({ item }) => (
     <div className="product-grid">
@@ -78,6 +79,13 @@ const HomePage = () => {
     }
   };
 
+  useEffect(() => {
+    if (isRandomizing) {
+      randomizeItems();
+      setIsRandomizing(false); // Dừng random sau khi thực hiện
+    }
+  }, [isRandomizing]);
+
   const fetchMenuItems = async () => {
     try {
       const response = await fetch('http://localhost:3001/api/v1/product/all-product');
@@ -87,15 +95,25 @@ const HomePage = () => {
       const data = await response.json();
       console.log(data);
       setMenuItems(data || []);
+      setIsRandomizing(true); // Cho phép random lại danh sách sau khi fetch
     } catch (error) {
       console.error('Could not fetch products:', error);
     }
   };
 
+  const randomizeItems = () => {
+    const randomizedItems = [...menuItems].sort(() => Math.random() - 0.5).slice(0, 25);
+    setMenuItems(randomizedItems);
+  };
+
+  const handleRefresh = () => {
+    fetchMenuItems(); // Random lại khi nhấn "Làm mới"
+  };
+
   useEffect(() => {
     fetchMenuItems();
   }, []);
-
+  
   const slides = [
     { url: slidejpg1, title: "sld1" },
     { url: slidejpg2, title: "sld2" },
@@ -139,11 +157,11 @@ const HomePage = () => {
         </div>
       </div>
 
-      <div className="container container2" >
+      <div className="container container2">
         {menuItems.map((item) => (
           <ProductItem key={item.id} item={item} />
         ))}
-        
+        <button className="refresh-button" onClick={handleRefresh}>Làm mới</button>
       </div>
     </>
   );
