@@ -4,16 +4,7 @@ import "./style.css";
 import axios from "axios";
 
 const ChangeInfoPage = () => {
-  const [formData, setFormData] = useState({
-    account_name: "",
-    email: "",
-    cccd: "",
-    phone_number: "",
-    gender: "man", // Giới tính mặc định là "Nam"
-    dob_day: "1", // Ngày sinh mặc định là ngày 1
-    dob_month: "jan", // Tháng sinh mặc định là tháng 1
-    dob_year: "2013" // Năm sinh mặc định là năm 2013
-  });
+  const [formData, setFormData] = useState([]);
 
   const saveUserInfo = async () => {
     try {
@@ -37,7 +28,7 @@ const ChangeInfoPage = () => {
 
   /**/
   
-  const [menuItems, setMenuItems] = useState([]);
+  const [accountInfo, setAccountInfo] = useState([]);
   const [customerID, setCustomerID] = useState(null);
 
   useEffect(() => {
@@ -51,24 +42,36 @@ const ChangeInfoPage = () => {
     }
   }, []);
   
-  const fetchMenuItems = async () => {
+  const fetchMenuItems = async (customerID) => {
     try {
       const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`);
       if (!response.ok) {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
       const data = await response.json();
-      console.log('dữ liệu user:' ,data);
+      console.log('dữ liệu user:' , data);
       console.log('ID đây:', customerID);
-      setMenuItems(data || []);
-    } catch (error) {
+      setAccountInfo(data );
+      console.log('form data đây',accountInfo)
+    } 
+    catch (error) {
       console.error('Could not fetch products:', error);
     }
   };
 
   useEffect(() => {
-    fetchMenuItems();
-  }, []);
+    if (customerID) {
+      fetchMenuItems(customerID);
+    }
+  }, [customerID]);
+
+  const handleChange=() => {
+
+  }
+
+  const handleSave =() => {
+
+  }
 
   return (
     <div className="container">
@@ -80,6 +83,7 @@ const ChangeInfoPage = () => {
             <div className="profile_top">
               <h1>Hồ sơ của tôi</h1>
               <h3>Quản lý thông tin hồ sơ để bảo mật tài khoản</h3>
+
             </div>
             <div className="profile_body">
               <div className="profile_info_content">
@@ -87,7 +91,7 @@ const ChangeInfoPage = () => {
                   Tên đăng nhập
                 </div>
                 <div className="right_content">
-                  <input name="account_name" type="text" value={formData.account_name} onChange={(e) => setFormData({ ...formData, account_name: e.target.value })}/>
+                  <input name="account_name" type="text" value={formData.account_name} onChange={handleChange}></input>
                 </div>
               </div>
 
@@ -105,7 +109,7 @@ const ChangeInfoPage = () => {
                   Email
                 </div>
                 <div className="right_content">
-                  <input name="email" type="text" value={formData.email} onChange={(e) => setFormData({ ...formData, email: e.target.value })}/>
+                  <input name="email" type="text" value={formData.email}/>
                 </div>
               </div>
 
@@ -114,7 +118,7 @@ const ChangeInfoPage = () => {
                   Căn cước công dân
                 </div>
                 <div className="right_content">
-                  <input name="cccd" type="text" value={formData.cccd} onChange={(e) => setFormData({ ...formData, cccd: e.target.value })}/>
+                  <input name="cccd" type="text" value={formData.cccd}/>
                 </div>
               </div>
 
@@ -123,7 +127,7 @@ const ChangeInfoPage = () => {
                   Giới tính
                 </div>
                 <div className="right_content">
-                <select value={formData.gender} onChange={(e) => setFormData({ ...formData, gender: e.target.value })}>  
+                <select value={formData.gender} >  
                   <option value="male">Nam</option>
                   <option value="female">Nữ</option>
                   <option value="other">Khác</option>
@@ -136,7 +140,7 @@ const ChangeInfoPage = () => {
                   Ngày sinh
                 </div>
                 <div className="right_content">
-                  <select  value={formData.dob_day} onChange={(e) => setFormData({ ...formData, dob_day: e.target.value })}>
+                  <select  value={formData.dob_day} >
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
@@ -170,7 +174,7 @@ const ChangeInfoPage = () => {
                     <option value="31">31</option>
                   </select>
                   <br/>
-                  <select  value={formData.dob_month} onChange={(e) => setFormData({ ...formData, dob_month: e.target.value })}>
+                  <select  value={formData.dob_month} >
                     <option value="jan">Tháng 1</option>
                     <option value="feb">Tháng 2</option>
                     <option value="mar">Tháng 3</option>
@@ -185,7 +189,7 @@ const ChangeInfoPage = () => {
                     <option value="dec">Tháng 12</option>
                   </select>
                   <br/>
-                  <select  value={formData.dob_year} onChange={(e) => setFormData({ ...formData, dob_year: e.target.value })}>
+                  <select  value={formData.dob_year} >
                     <option value="2013">2013</option>
                     <option value="2012">2012</option>
                     <option value="2011">2011</option>
@@ -235,7 +239,7 @@ const ChangeInfoPage = () => {
               </div>
               <div className="profile_info_content">
                 <div className="btn">
-                  <button type="submit" onClick={saveUserInfo}>Lưu</button>
+                  <button type="submit" onClick={handleSave}>Lưu</button>
                 </div>
                 
               </div>

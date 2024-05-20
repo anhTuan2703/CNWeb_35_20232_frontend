@@ -49,6 +49,10 @@ const renderUserRouter = () => {
       component: <CartsPage/>
     },
     {
+      path: `${ROUTERS.USER.ACCESS}/cart`,
+      component: <CartsPage/>
+    },
+    {
       path: `${ROUTERS.USER.HOME}/product`,
       component: <ProductPage/>
     },
