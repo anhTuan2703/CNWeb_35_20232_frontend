@@ -45,6 +45,10 @@ const renderUserRouter = () => {
       component: <CartsPage/>
     },
     {
+      path: `${ROUTERS.USER.HOME}/cart`,
+      component: <CartsPage/>
+    },
+    {
       path: `${ROUTERS.USER.HOME}/product`,
       component: <ProductPage/>
     },
@@ -59,6 +63,10 @@ const renderUserRouter = () => {
     {
       path: `${ROUTERS.USER.SEARCH}/product`,
       component: <ProductPage/>
+    },
+    {
+      path: `${ROUTERS.USER.SEARCH}/cart`,
+      component: <CartsPage/>
     },
     {
       path: `/product`,

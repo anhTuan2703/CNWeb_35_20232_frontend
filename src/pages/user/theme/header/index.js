@@ -64,6 +64,15 @@ const Header = () => {
     //window.location.reload(); // Tải lại trang sau khi chuyển hướng đến trang đăng nhập
   };
 
+  const handleCartClick = (e) => {
+    if (!isLoggedIn) {
+      e.preventDefault();
+      alert("Vui lòng đăng nhập để tiếp tục");
+    } else {
+      window.location.href = ROUTERS.USER.CART;
+    }
+  };
+
   return (
     <>
       <div className="header_top">
@@ -82,7 +91,12 @@ const Header = () => {
                   {/* cái này là menu ở bên trên thanh tìm kiếm ý */}
                   {menus?.map((menu, menuKey) => (
                     <li key={menuKey} className={menuKey === 0 ? "active": ""}>
-                      <Link to={menu?.path}>{menu?.name}</Link>
+                      {/* <Link to={menu?.path}>{menu?.name}</Link> */}
+                      {menu.name === "Giỏ hàng" ? (
+                        <Link to={menu?.path} onClick={handleCartClick}>{menu?.name}</Link>
+                      ) : (
+                        <Link to={menu?.path}>{menu?.name}</Link>
+                      )}
                     </li>
                   ))}
                   {isLoggedIn && (
@@ -101,12 +115,6 @@ const Header = () => {
             <div className="col-3">
               <nav className="header_log_btn">
                 <ul>
-                  {/* cái này là 2 nút đăng nhập đăng xuất
-                  {logMenus?.map((menu, menuKey) => (
-                    <li key={menuKey} className={menuKey === 0 ? "active": ""}>
-                      <Link to={""}>{menu?.name}</Link>
-                    </li>
-                  ))} */}
                   {isLoggedIn ? (
                     <>
                       <li>
