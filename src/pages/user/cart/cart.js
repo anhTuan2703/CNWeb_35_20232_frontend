@@ -6,6 +6,7 @@ import AddIcon from '@mui/icons-material/Add';
 import RemoveIcon from '@mui/icons-material/Remove';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import { formater } from '../../../utils/formater';
 import './cart.css';
 
 const CartItem = memo(({ item, onQuantityChange, onDelete  }) => (
@@ -282,7 +283,7 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: 2, padding: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
                 <Typography variant="h6">Tổng cộng:</Typography>
-                <Typography variant="h6">{calculateTotalPriceWithShipping().toLocaleString()} VNĐ</Typography>
+                <Typography variant="h6">{formater(calculateTotalPriceWithShipping().toLocaleString())}</Typography>
             </Box>
 
             <CardActions>

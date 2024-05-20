@@ -39,26 +39,38 @@ const ChangePasswordPage = () => {
   };
 
   const handleChangePassword = async () => {
+    
     if (formData.newPassword !== formData.confirmPassword) {
       setError("Mật khẩu mới và xác nhận mật khẩu không khớp");
+      //console.log(formData.newPassword);
     }
     else {
       try {
-        const response = await axios.post('http://localhost:3001/api/v1/user/change-password', {
+        const request = await axios.post('http://localhost:3001/api/v1/user/change-password', {
           userID: formData.userID,
           oldPassword: formData.oldPassword,
           newPassword: formData.newPassword,
           confirmPassword: formData.confirmPassword
         });
-        console.log("Thay đổi mật khẩu thành công");
+        //if(formData.newPassword === formData.confirmPassword) console.log("2 mk đã giống nhau");
         setError(""); // Xóa thông báo lỗi nếu có
-        } 
-        catch (error) {
-            console.error("Lỗi khi thay đổi mật khẩu:", error);
+        if (request.data.success) {
+          alert(request.data.message);
         }
+      } 
+      catch (error) {
+        console.error("Lỗi khi thay đổi mật khẩu:", error);
+        if (error.response && error.response.data) {
+          // Hiển thị thông báo lỗi từ backend
+          alert(error.response.data.message);
+        } else {
+          // Hiển thị thông báo lỗi chung
+          alert("Đã xảy ra lỗi khi thay đổi mật khẩu.");
+        }
+      }
     } 
   };
-
+  
   return (
     <div className="container">
       <div className="row">
