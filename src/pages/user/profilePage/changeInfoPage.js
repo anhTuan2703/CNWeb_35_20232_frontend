@@ -8,27 +8,61 @@ const ChangeInfoPage = () => {
 
   const saveUserInfo = async () => {
     try {
-      const response = await axios.post('http://localhost:3001/api/v1/user/change-information', {
+      const request = await axios.post('http://localhost:3001/api/v1/user/change-information', {
+        customer_id:customerID,
+        name: formData.name,
         account_name: formData.account_name,
         email: formData.email,
-        cccd: formData.cccd,
+        CCCD: formData.CCCD,
         phone_number: formData.phone_number,
-        gender: formData.gender,
-        dob_day: formData.dob_day,
-        dob_month: formData.dob_month,
-        dob_year: formData.dob_year
+        // gender: formData.gender,
+        // date_of_birth: formData.dob_year+'/'+formData.dob_month+'/'+formData.dob_day,
       });
   
-      console.log(response.data); // Xử lý kết quả trả về từ server tại đây
+      console.log(request); // Xử lý kết quả trả về từ server tại đây
+      //console.log('ngày',formData.dob_day);
     } 
     catch (error) {
       console.error('Error:', error);
     }
   }; 
+  // const [formData, setAccountInfo] = useState([]);
+  // const [customerID, setCustomerID] = useState(null);
 
-  /**/
+  // useEffect(() => {
+  //   const token = localStorage.getItem('token');
+  //   if (token) {
+  //     const decodedToken = jwtDecode(token);
+  //     console.log(decodedToken);
+  //     setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
+  //   } else {
+  //     console.log("Không tìm thấy token")
+  //   }
+  // }, []);
   
-  const [accountInfo, setAccountInfo] = useState([]);
+  // const fetchMenuItems = async (customerID) => {
+  //   try {
+  //     const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`, {
+  //       method: 'GET',
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //       },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error(`Network response was not ok: ${response.statusText}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log('dữ liệu user:', data);
+  //     console.log('ID đây:', customerID);
+  //     setAccountInfo(data);
+  //     console.log('form data đây', formData);
+  //   } 
+  //   catch (error) {
+  //     console.error('Could not fetch products:', error);
+  //   }
+  // };
+
+  // const [formData, setAccountInfo] = useState([]);
   const [customerID, setCustomerID] = useState(null);
 
   useEffect(() => {
@@ -38,26 +72,9 @@ const ChangeInfoPage = () => {
       console.log(decodedToken);
       setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
     } else {
-      console.log("Không tìm thấy token");
+      console.log("Không tìm thấy token")
     }
   }, []);
-  
-  const fetchMenuItems = async (customerID) => {
-    try {
-      const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`);
-      if (!response.ok) {
-        throw new Error(`Network response was not ok: ${response.statusText}`);
-      }
-      const data = await response.json();
-      console.log('dữ liệu user:' , data);
-      console.log('ID đây:', customerID);
-      setAccountInfo(data );
-      console.log('form data đây',accountInfo)
-    } 
-    catch (error) {
-      console.error('Could not fetch products:', error);
-    }
-  };
 
   useEffect(() => {
     if (customerID) {
@@ -65,13 +82,66 @@ const ChangeInfoPage = () => {
     }
   }, [customerID]);
 
-  const handleChange=() => {
+  
+  const fetchMenuItems = async (customerID) => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log('dữ liệu user:', data);
+      console.log('ID đây:', customerID);
+      setFormData(data);
+      // const split_res = splitDOB(data.date_of_birth);
+      // formData.dob_day=split_res.day;
+      // console.log('leierue',formData.dob_day);
+      console.log('form data đây', data.date_of_birth); // Sửa lại để in dữ liệu mới nhất
+    } catch (error) {
+      console.error('Could not fetch products:', error);
+    }
+  };
+  
+  // const splitDOB = (x) =>{
+  //   return x.map(dateString => {
+  //     const [year, month, day] = x.split('-');
+  //     return { year, month, day };
+  //   });
+  // };
+  
+  // useEffect(() => {
+  //   if (customerID) {
+  //     fetchMenuItems(customerID);
+  //   }
+  // }, [customerID]);
 
-  }
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
 
   const handleSave =() => {
 
   }
+
+  // const [values,setValues] = useState({
+  //   id: customerID,
+  //   account_name: '',
+  //   email: ''
+  // })
+  // useEffect(()=> {
+  //   axios.get('http://localhost:3001/api/v1/user/change-information/'+customerID)
+  //   .then(res=>{
+  //      setValues({...values, account_name: res.data.account_name, email: res.data.email})
+  //     //console.log(res);
+  //   })
+  //   .catch(err=>console.log(err))
+  // },[])
 
   return (
     <div className="container">
@@ -91,7 +161,7 @@ const ChangeInfoPage = () => {
                   Tên đăng nhập
                 </div>
                 <div className="right_content">
-                  <input name="account_name" type="text" value={formData.account_name} onChange={handleChange}></input>
+                  <input name="account_name" type="text" value={formData.account_name}></input>
                 </div>
               </div>
 
@@ -100,7 +170,7 @@ const ChangeInfoPage = () => {
                   Họ và tên
                 </div>
                 <div className="right_content">
-                  <input type="text" required/>
+                  <input  name="name" type="text" value={formData.name} onChange={handleChange} required/>
                 </div>
               </div>
 
@@ -109,7 +179,7 @@ const ChangeInfoPage = () => {
                   Email
                 </div>
                 <div className="right_content">
-                  <input name="email" type="text" value={formData.email}/>
+                  <input name="email" type="text" value={formData.email} onChange={handleChange} required/>
                 </div>
               </div>
 
@@ -118,10 +188,10 @@ const ChangeInfoPage = () => {
                   Căn cước công dân
                 </div>
                 <div className="right_content">
-                  <input name="cccd" type="text" value={formData.cccd}/>
+                  <input name="CCCD" type="text" value={formData.CCCD} onChange={handleChange} required/>
                 </div>
               </div>
-
+{/* 
               <div className="profile_info_content">
                 <div className="left_content">
                   Giới tính
@@ -133,23 +203,23 @@ const ChangeInfoPage = () => {
                   <option value="other">Khác</option>
                 </select>
                 </div>
-              </div>
+              </div> */}
 
-              <div className="profile_info_content">
+              {/* <div className="profile_info_content">
                 <div className="left_content dob">
                   Ngày sinh
                 </div>
                 <div className="right_content">
-                  <select  value={formData.dob_day} >
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                    <option value="5">5</option>
-                    <option value="6">6</option>
-                    <option value="7">7</option>
-                    <option value="8">8</option>
-                    <option value="9">9</option>
+                  <select name="dob_day" value={formData.dob_day} onChange={handleChange} required>
+                    <option value="01">1</option>
+                    <option value="02">2</option>
+                    <option value="03">3</option>
+                    <option value="04">4</option>
+                    <option value="05">5</option>
+                    <option value="06">6</option>
+                    <option value="07">7</option>
+                    <option value="08">8</option>
+                    <option value="09">9</option>
                     <option value="10">10</option>
                     <option value="11">11</option>
                     <option value="12">12</option>
@@ -174,22 +244,22 @@ const ChangeInfoPage = () => {
                     <option value="31">31</option>
                   </select>
                   <br/>
-                  <select  value={formData.dob_month} >
-                    <option value="jan">Tháng 1</option>
-                    <option value="feb">Tháng 2</option>
-                    <option value="mar">Tháng 3</option>
-                    <option value="apr">Tháng 4</option>
-                    <option value="may">Tháng 5</option>
-                    <option value="jun">Tháng 6</option>
-                    <option value="jul">Tháng 7</option>
-                    <option value="aug">Tháng 8</option>
-                    <option value="sep">Tháng 9</option>
-                    <option value="oct">Tháng 10</option>
-                    <option value="nov">Tháng 11</option>
-                    <option value="dec">Tháng 12</option>
+                  <select name="dob_month" value={formData.dob_month} onChange={handleChange} required >
+                    <option value="01">Tháng 1</option>
+                    <option value="02">Tháng 2</option>
+                    <option value="03">Tháng 3</option>
+                    <option value="04">Tháng 4</option>
+                    <option value="05">Tháng 5</option>
+                    <option value="06">Tháng 6</option>
+                    <option value="07">Tháng 7</option>
+                    <option value="08">Tháng 8</option>
+                    <option value="09">Tháng 9</option>
+                    <option value="10">Tháng 10</option>
+                    <option value="11">Tháng 11</option>
+                    <option value="12">Tháng 12</option>
                   </select>
                   <br/>
-                  <select  value={formData.dob_year} >
+                  <select name="dob_year" value={formData.dob_year} onChange={handleChange} required>
                     <option value="2013">2013</option>
                     <option value="2012">2012</option>
                     <option value="2011">2011</option>
@@ -236,10 +306,10 @@ const ChangeInfoPage = () => {
                     <option value="1970">1970</option>
                   </select>
                 </div>
-              </div>
+              </div> */}
               <div className="profile_info_content">
                 <div className="btn">
-                  <button type="submit" onClick={handleSave}>Lưu</button>
+                  <button type="submit" onClick={saveUserInfo}>Lưu</button>
                 </div>
                 
               </div>
