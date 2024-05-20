@@ -59,6 +59,35 @@
     }
 }
 
+.header_log_btn {
+    padding: 15px;
+    text-align: center;
+    ul {
+        display: flex;
+        justify-content: space-between;
+        text-align: center;
+        padding-top: 20px;
+
+        li {
+            list-style: none;
+            a {
+                text-decoration: none;
+                font-size: 14px;
+                color: black;
+                text-transform: uppercase;
+                font-weight: bold;
+                letter-spacing: 2px;
+                transition: all 0.3s;
+                padding: 5px ;
+                display: block;
+            }
+            a:hover {
+                color:rgb(157, 239, 209);
+            }
+        }
+    }
+}
+
 /*css phần live searching*/
 .search {
     display: flex;

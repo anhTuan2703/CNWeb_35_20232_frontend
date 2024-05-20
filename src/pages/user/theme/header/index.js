@@ -2,9 +2,7 @@ import { memo, useState, useRef, useEffect } from "react";
 import './style.css';
 import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
-import { useNavigate } from "react-router-dom";
 import logo from "../../../../img/cropedLogo.png";
-import axios from "axios";
 import searchingData from "./searchingData.json";
 
 const Header = () => {
@@ -16,14 +14,6 @@ const Header = () => {
     {
       name: "Giỏ hàng",
       path: ROUTERS.USER.CART,
-    },
-    {
-      name: "Thông tin cá nhân",
-      path: `${ROUTERS.USER.ACCESS}/change-information`,
-    },
-    {
-      name: "Đổi mật khẩu",
-      path: `${ROUTERS.USER.ACCESS}/change-password`,
     }
   ]);
 
@@ -32,6 +22,22 @@ const Header = () => {
   const [value, setValue] = useState();
   const [searchVal, setSearchVal] = useState('');
   const [data, setData] = useState([]);
+
+  //check xem đăng nhập chưa
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      setIsLoggedIn(true);
+    }
+  }, []);
+
+
+  const handleSearch = () => {
+    localStorage.setItem('searchQuery', searchVal);
+    console.log('Saved to localStorage:', searchVal);
+  };
+  
   const handleChange = (e) => {
     const { value } = e.target;
     setValue(value);
@@ -41,9 +47,21 @@ const Header = () => {
     setData(filteredData.slice(0, 5)); // Giới hạn số lượng item hiển thị
   };
 
-  const handleSearch = () => {
-    localStorage.setItem('searchQuery', searchVal);
-    console.log('Saved to localStorage:', searchVal);
+  const reloadIfNecessary = () => {
+    if (window.location.href.includes('localhost:3000/search')) {
+      window.location.reload();
+    }
+  };
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userID');
+    setIsLoggedIn(false);
+  };
+
+  const handleLoginClick = () => {
+    window.location.href = ROUTERS.USER.LOGIN;
+    //window.location.reload(); // Tải lại trang sau khi chuyển hướng đến trang đăng nhập
   };
 
   return (
@@ -67,6 +85,39 @@ const Header = () => {
                       <Link to={menu?.path}>{menu?.name}</Link>
                     </li>
                   ))}
+                  {isLoggedIn && (
+                    <>
+                      <li>
+                        <Link to={`${ROUTERS.USER.ACCESS}/change-information`}>Thông tin cá nhân</Link>
+                      </li>
+                      <li>
+                        <Link to={`${ROUTERS.USER.ACCESS}/change-password`}>Đổi mật khẩu</Link>
+                      </li>
+                    </>
+                  )}
+                </ul>
+              </nav>
+            </div>
+            <div className="col-3">
+              <nav className="header_log_btn">
+                <ul>
+                  {/* cái này là 2 nút đăng nhập đăng xuất
+                  {logMenus?.map((menu, menuKey) => (
+                    <li key={menuKey} className={menuKey === 0 ? "active": ""}>
+                      <Link to={""}>{menu?.name}</Link>
+                    </li>
+                  ))} */}
+                  {isLoggedIn ? (
+                    <>
+                      <li>
+                        <Link to={ROUTERS.USER.HOME} onClick={handleLogout}>Đăng xuất</Link>
+                      </li>
+                    </>
+                  ) : (
+                    <li>
+                      <Link onClick={handleLoginClick}  >Đăng nhập</Link>
+                    </li>
+                  )}
                 </ul>
               </nav>
             </div>
@@ -85,7 +136,7 @@ const Header = () => {
             <input type="text" onChange={handleChange} value={value} ref={queryInputRef}/>
           </div>
           <Link to={ROUTERS.USER.SEARCH}>
-            <button className="btn-search" onClick={() => { handleSearch(); window.location.reload(); }}>Tìm kiếm</button>  
+            <button className="btn-search" onClick={() => { handleSearch(); reloadIfNecessary(); }}>Tìm kiếm</button>  
           </Link>
         </div>
         <div className="search_result_list">

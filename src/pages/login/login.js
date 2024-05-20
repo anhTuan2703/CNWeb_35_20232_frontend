@@ -30,9 +30,9 @@ export default function Login() {
       });
       if (res.data.success) {
         localStorage.setItem('token', res.data.token);
-        navigate(ROUTERS.USER.HOME);
+        window.location.href = ROUTERS.USER.HOME;
         console.log("Đăng nhập thành công");
-        alert('Đang nhập thành công!');
+        alert('Đăng nhập thành công!'); 
       } else {
         console.log(res.data.message);
       }

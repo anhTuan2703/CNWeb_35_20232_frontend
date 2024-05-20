@@ -1,4 +1,5 @@
-import { memo, useState } from "react";
+import { memo, useState, useEffect } from "react";
+import {jwtDecode} from 'jwt-decode';
 import "./style.css";
 import axios from "axios";
 
@@ -33,14 +34,47 @@ const ChangeInfoPage = () => {
       console.error('Error:', error);
     }
   }; 
-//
+
   /**/
+  
+  const [menuItems, setMenuItems] = useState([]);
+  const [customerID, setCustomerID] = useState(null);
+
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      const decodedToken = jwtDecode(token);
+      console.log(decodedToken);
+      setCustomerID(decodedToken.id); // Giả sử 'id' trong token là customerID
+    } else {
+      console.log("Không tìm thấy token");
+    }
+  }, []);
+  
+  const fetchMenuItems = async () => {
+    try {
+      const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`);
+      if (!response.ok) {
+        throw new Error(`Network response was not ok: ${response.statusText}`);
+      }
+      const data = await response.json();
+      console.log('dữ liệu user:' ,data);
+      console.log('ID đây:', customerID);
+      setMenuItems(data || []);
+    } catch (error) {
+      console.error('Could not fetch products:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchMenuItems();
+  }, []);
 
   return (
     <div className="container">
         <div className="row">
           <div className="col-3">
-            trai
+            
           </div>
           <div className="col-6">
             <div className="profile_top">

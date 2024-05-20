@@ -20,6 +20,11 @@ const renderUserRouter = () => {
       component: <HomePage/>
     },
     {
+      path: '/',
+      component: <HomePage/>,
+      exact: true
+    },
+    {
       path: `${ROUTERS.USER.ACCESS}/profile`,
       component: <AccountPage/>
     },
@@ -51,6 +56,18 @@ const renderUserRouter = () => {
       path: ROUTERS.USER.SEARCH,
       component: <SearchResultPage/>
     },
+    {
+      path: `${ROUTERS.USER.SEARCH}/product`,
+      component: <ProductPage/>
+    },
+    {
+      path: `/product`,
+      component: <ProductPage/>
+    },
+    {
+      path: ROUTERS.USER.LOGIN,
+      component: <Login />
+    },
   ];
 
   return (
@@ -59,7 +76,6 @@ const renderUserRouter = () => {
         {userRouters.map((item, key) => (
           <Route key={key} path={item.path} element={item.component}/>
         ))}
-        <Route path="/" element={<Login />} />
       </Routes>
     </MasterLayout>
  );

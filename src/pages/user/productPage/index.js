@@ -59,6 +59,7 @@ const ProductPage = () => {
         throw new Error(`Network response was not ok: ${response.statusText}`);
       }
       const data = await response.json();
+      console.log(data);
       const foundProduct = data.find(item => String(item.id) === productID);
       setProduct(foundProduct || null);
     } catch (error) {
