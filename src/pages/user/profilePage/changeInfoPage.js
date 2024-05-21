@@ -75,12 +75,29 @@ const ChangeInfoPage = () => {
       console.log("Không tìm thấy token")
     }
   }, []);
+  
+  // const fetchMenuItems = async (customerID) => {
+  //   try {
+  //     const response = await fetch(`http://localhost:3001/api/v1/user/change-information/${customerID}`);
+  //     if (!response.ok) {
+  //       throw new Error(`Network response was not ok: ${response.statusText}`);
+  //     }
+  //     const data = await response.json();
+  //     console.log('dữ liệu user:' , data);
+  //     console.log('ID đây:', customerID);
+  //     setAccountInfo(data || []);
+  //     console.log('form data đây',accountInfo)
+  //   } 
+  //   catch (error) {
+  //     console.error('Could not fetch products:', error);
+  //   }
+  // };
 
-  useEffect(() => {
-    if (customerID) {
-      fetchMenuItems(customerID);
-    }
-  }, [customerID]);
+  // useEffect(() => {
+  //   if (customerID) {
+  //     fetchMenuItems(customerID);
+  //   }
+  // }, [customerID]);
 
   
   const fetchMenuItems = async (customerID) => {
@@ -197,7 +214,7 @@ const ChangeInfoPage = () => {
                   Giới tính
                 </div>
                 <div className="right_content">
-                <select value={formData.gender} >  
+                <select value={""} >  
                   <option value="male">Nam</option>
                   <option value="female">Nữ</option>
                   <option value="other">Khác</option>

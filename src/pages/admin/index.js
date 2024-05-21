@@ -147,16 +147,24 @@ const AdminPage = () => {
 
   const handleDelete = async (productId) => {
     try {
+      // Hiển thị hộp thoại xác nhận cho người dùng trước khi thực hiện xóa
+      const confirmed = window.confirm('Bạn có chắc chắn muốn xóa sản phẩm này không?');
+      if (!confirmed) {
+        return; // Người dùng hủy bỏ việc xóa
+      }
+  
       const response = await axios.post('http://localhost:3001/api/v1/product/delete', { id: productId });
       if (response.status === 200) {
-        // Xóa sản phẩm thành công, có thể thực hiện các tác vụ cần thiết, ví dụ: cập nhật lại danh sách sản phẩm
-        fetchMenuItems();
+        // Xóa sản phẩm thành công
+        fetchMenuItems(); // Cập nhật danh sách sản phẩm
+        alert('Xóa sản phẩm thành công!'); // Hiển thị thông báo thành công
       } else {
-        // Xử lý lỗi nếu cần
+        // Xử lý các mã trạng thái khác (ví dụ: 404, 500)
+        console.error('Không thể xóa sản phẩm:', response.statusText);
       }
     } catch (error) {
-      console.error('Could not delete product:', error);
-      // Xử lý lỗi nếu cần
+      console.error('Không thể xóa sản phẩm:', error);
+      // Xử lý lỗi mạng hoặc các ngoại lệ khác
     }
   };
   
