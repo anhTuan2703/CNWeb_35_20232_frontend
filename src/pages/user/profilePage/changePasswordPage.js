@@ -54,6 +54,7 @@ const ChangePasswordPage = () => {
         });
         //if(formData.newPassword === formData.confirmPassword) console.log("2 mk đã giống nhau");
         setError(""); // Xóa thông báo lỗi nếu có
+        console.log(request)
         if (request.data.success) {
           alert(request.data.message);
         }

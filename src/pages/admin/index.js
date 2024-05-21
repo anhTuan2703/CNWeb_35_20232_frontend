@@ -134,12 +134,12 @@ const AdminPage = () => {
         fetchMenuItems();
         setFormValue(initFormValue); // Reset giá trị các trường dữ liệu về ban đầu
         setFormErrors({});
-      } else {
-        // Xử lý lỗi nếu cần
-      }
+      } 
+      console.log(response)      
+      alert(response.data.message);
     } catch (error) {
       console.error('Could not save product:', error);
-      // Xử lý lỗi nếu cần
+      alert('Lỗi khi tạo mới sản phẩm!')
     } finally {
       setIsSubmitting(false);
     }

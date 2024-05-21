@@ -58,6 +58,7 @@ const CartsPage = () => {
 
   // Hàm này sẽ gửi dữ liệu cập nhật đến backend sử dụng customerID
 const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
+  // const [result, setResult] = ([]);
   try {
     // Chuyển đổi dữ liệu giỏ hàng để phù hợp với cấu trúc backend mong đợi
     const itemsOrder = cart.map(item => ({
@@ -84,11 +85,17 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
 
     });
     if (!cartResponse.ok) throw new Error('Lỗi cập nhật giỏ hàng.');
-    alert('Các thay đổi đã được lưu thành công!');
-  } catch (error) {
-    console.error('Error:', error);
-    alert('Có lỗi xảy ra khi lưu thay đổi.');
-  }
+    const result = await cartResponse.json();
+      if (result.success) {
+        alert(result.message);
+      } else {
+        alert(result.message);
+      }
+      console.log('1233', result);
+    } catch (error) {
+      console.error('Error:', error);
+      alert('Có lỗi xảy ra khi thay ');
+    }
 };
 
   // Lấy customerID từ token lưu trong localStorage
@@ -170,10 +177,11 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
 
       const result = await response.json();
       if (result.success) {
-        alert('Thanh toán thành công!');
+        alert(result.message);
       } else {
-        alert('Thanh toán không thành công.');
+        alert(result.message);
       }
+      console.log('1233', result);
     } catch (error) {
       console.error('Error:', error);
       alert('Có lỗi xảy ra khi thực hiện thanh toán.');

@@ -39,18 +39,24 @@ const Header = () => {
   };
   
   const handleChange = async (e) => {
-    // setValue(e.target.value);
-    // const response = await fetch('http://localhost:3001/api/v1/product/all-product');
-    // const data = await response.json();
-    // setData(data);
+    setValue(e.target.value);
+    const response = await fetch('http://localhost:3001/api/v1/product/all-product');
+    const data = await response.json();
+    setData(data);
     // console.log(data);
-    const { value } = e.target;
-    setValue(value);
+    // const { value } = e.target;
+    // setValue(value);
     setSearchVal(e.target.value);
     // Lọc dữ liệu từ data.json thay vì gọi API
-    const filteredData = data.filter(item => item.name.startsWith(value));
-    setData(filteredData.slice(0, 5)); // Giới hạn số lượng item hiển thị
+    // const filteredData = data.filter(item => item.name.startsWith(value));
+    // setData(filteredData.slice(0, 5)); // Giới hạn số lượng item hiển thị
 
+  };
+
+  const handleItemClick = (itemName) => {
+    setValue(itemName);
+    setSearchVal(value)
+    // queryInputRef.current.value = itemName; // Cập nhật giá trị của input
   };
 
   const reloadIfNecessary = () => {
@@ -150,15 +156,16 @@ const Header = () => {
             <input type="text" onChange={handleChange} value={value} ref={queryInputRef}/>
           </div>
           <Link to={ROUTERS.USER.SEARCH}>
-            <button className="btn-search" onClick={() => { handleSearch(); reloadIfNecessary(); }}>Tìm kiếm</button>  
+            <button className="btn-search" onClick={() => { handleSearch(); reloadIfNecessary(); }}>Tìm kiếm </button>  
           </Link>
         </div>
         <div className="search_result_list">
           {
             value &&
-            data
+            data.filter(item => item.name.toLowerCase().includes(value.toLowerCase()))
+            .slice(0,5)
             .map(item => (
-              <div key={item.id} className="search_item" onClick={(e) => setValue(item.name)}>
+              <div key={item.id} className="search_item" onClick={() => handleItemClick(item.name)}>
                 {item.name}
               </div>
             ))

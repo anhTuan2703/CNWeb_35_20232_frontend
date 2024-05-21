@@ -18,12 +18,13 @@ const ChangeInfoPage = () => {
         // gender: formData.gender,
         // date_of_birth: formData.dob_year+'/'+formData.dob_month+'/'+formData.dob_day,
       });
-  
+      alert('Thành công!');
       console.log(request); // Xử lý kết quả trả về từ server tại đây
       //console.log('ngày',formData.dob_day);
     } 
     catch (error) {
       console.error('Error:', error);
+      alert('Lỗi');
     }
   }; 
   // const [formData, setAccountInfo] = useState([]);
@@ -131,11 +132,11 @@ const ChangeInfoPage = () => {
   //   });
   // };
   
-  // useEffect(() => {
-  //   if (customerID) {
-  //     fetchMenuItems(customerID);
-  //   }
-  // }, [customerID]);
+  useEffect(() => {
+    if (customerID) {
+      fetchMenuItems(customerID);
+    }
+  }, [customerID]);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
