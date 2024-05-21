@@ -111,13 +111,14 @@ const AdminPage = () => {
       setIsSubmitting(true);
       const response = await axios.post('http://localhost:3001/api/v1/category/create', nameCategory);
       if (response.status === 200) {
-        
+        fetchMenuCategory();
+        alert('Thêm danh mục thành công!');
       } else {
         // Xử lý lỗi nếu cần
       }
     } catch (error) {
       console.error('Could not save product:', error);
-      // Xử lý lỗi nếu cần
+      alert('Lỗi khi tạo danh mục!');
     } finally {
       setIsSubmitting(false);
     }
