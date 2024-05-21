@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { ROUTERS } from "../../../../utils/router";
 import logo from "../../../../img/cropedLogo.png";
 import searchingData from "./searchingData.json";
+import { jwtDecode } from "jwt-decode";
+import { RoundaboutLeft } from "@mui/icons-material";
 
 const Header = () => {
   const [menus, setMenus] = useState([
@@ -17,6 +19,19 @@ const Header = () => {
     }
   ]);
 
+  const [isAdmin, setIsAdmin] = useState(false);
+  useEffect (()=>{
+    const token = localStorage.getItem('token');
+    // const decodedToken = jwtDecode(token).role;
+    // if(String(decodedToken) === 'admin') setIsAdmin(true);
+    if (token) {
+      const decoded = jwtDecode(token).role;
+      const roleString = String(decoded); // Ensure it's a string
+      if (roleString === 'admin') {
+        setIsAdmin(true);
+      }
+    }
+  },[])
   const queryInputRef = useRef(null);
 
   const [value, setValue] = useState();
@@ -69,6 +84,7 @@ const Header = () => {
     localStorage.removeItem('token');
     localStorage.removeItem('userID');
     setIsLoggedIn(false);
+    setIsAdmin(false);
   };
 
   const handleLoginClick = () => {
@@ -101,16 +117,37 @@ const Header = () => {
               <nav className="header_menu">
                 <ul>
                   {/* cái này là menu ở bên trên thanh tìm kiếm ý */}
-                  {menus?.map((menu, menuKey) => (
+                  {/* {menus?.map((menu, menuKey) => (
                     <li key={menuKey} className={menuKey === 0 ? "active": ""}>
                       {/* <Link to={menu?.path}>{menu?.name}</Link> */}
-                      {menu.name === "Giỏ hàng" ? (
+                      {/* {menu.name === "Giỏ hàng" ? (
                         <Link to={menu?.path} onClick={handleCartClick}>{menu?.name}</Link>
                       ) : (
                         <Link to={menu?.path}>{menu?.name}</Link>
                       )}
-                    </li>
-                  ))}
+                    </li> */}
+                  {/* ))} } */}
+                  <li>
+                    <Link to={ROUTERS.USER.HOME}></Link>
+                  </li>
+                  {isLoggedIn && isAdmin && (
+                    <>
+                      <li>
+                        <Link to={ROUTERS.USER.ADMIN}>Trang quản lý</Link>
+                      </li>
+                    </>
+                  )}
+                  {isLoggedIn && !isAdmin && (
+                    <>
+                      <li>
+                        <Link to={ROUTERS.USER.HOME}>Trang chủ</Link>
+                      </li>
+                      <li>
+                        <Link to={ROUTERS.USER.CART}>Giỏ hàng</Link>
+                      </li>
+                      
+                    </>
+                  )}
                   {isLoggedIn && (
                     <>
                       <li>
@@ -121,6 +158,13 @@ const Header = () => {
                       </li>
                     </>
                   )}
+                  {/* {isLoggedIn && isAdmin && (
+                    <>
+                      <li>
+                      <Link to ={ROUTERS.USER.ADMIN}>Trang quản lý</Link>
+                      </li>
+                    </>
+                  )} */}
                 </ul>
               </nav>
             </div>
