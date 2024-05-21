@@ -38,13 +38,19 @@ const Header = () => {
     console.log('Saved to localStorage:', searchVal);
   };
   
-  const handleChange = (e) => {
+  const handleChange = async (e) => {
+    // setValue(e.target.value);
+    // const response = await fetch('http://localhost:3001/api/v1/product/all-product');
+    // const data = await response.json();
+    // setData(data);
+    // console.log(data);
     const { value } = e.target;
     setValue(value);
     setSearchVal(e.target.value);
     // Lọc dữ liệu từ data.json thay vì gọi API
-    const filteredData = searchingData.filter(item => item.title.startsWith(value));
+    const filteredData = data.filter(item => item.name.startsWith(value));
     setData(filteredData.slice(0, 5)); // Giới hạn số lượng item hiển thị
+
   };
 
   const reloadIfNecessary = () => {
@@ -150,9 +156,10 @@ const Header = () => {
         <div className="search_result_list">
           {
             value &&
-            data.map(item => (
-              <div key={item.id} className="search_item" onClick={(e) => setValue(item.title)}>
-                {item.title}
+            data
+            .map(item => (
+              <div key={item.id} className="search_item" onClick={(e) => setValue(item.name)}>
+                {item.name}
               </div>
             ))
           }
