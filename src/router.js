@@ -57,6 +57,10 @@ const renderUserRouter = () => {
       component: <ProductPage/>
     },
     {
+      path: `${ROUTERS.USER.HOME}/login`,
+      component: <Login/>
+    },
+    {
       path: ROUTERS.USER.ADMIN,
       component: <AdminPage/>
     },
@@ -67,6 +71,10 @@ const renderUserRouter = () => {
     {
       path: `${ROUTERS.USER.SEARCH}/product`,
       component: <ProductPage/>
+    },
+    {
+      path: `${ROUTERS.USER.SEARCH}/login`,
+      component: <Login/>
     },
     {
       path: `${ROUTERS.USER.SEARCH}/cart`,

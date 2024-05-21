@@ -192,7 +192,9 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
   // Tính tổng giá trị đơn hàng cùng phí ship
   const calculateTotalPriceWithShipping = () => {
     const totalPrice = cart.reduce((total, item) => total + item.price * item.amount, 0);
-    return totalPrice + shippingFee;
+    const shippingFeeNumber = parseFloat(shippingFee);
+    const totalPriceWithShipping = totalPrice + shippingFeeNumber;
+    return totalPriceWithShipping;
   };
 
   return (
@@ -263,7 +265,7 @@ const saveChangesToBackend = async (cart, shippingInfo, customerID) => {
 
             <Box display="flex" justifyContent="space-between" alignItems="center" sx={{ marginTop: 2, padding: 2, bgcolor: 'background.paper', borderRadius: 1 }}>
                 <Typography variant="h6">Tổng cộng:</Typography>
-                <Typography variant="h6">{formater(calculateTotalPriceWithShipping().toLocaleString())}</Typography>
+                <Typography variant="h6">{calculateTotalPriceWithShipping().toLocaleString()} VNĐ</Typography>
             </Box>
 
             <CardActions>
